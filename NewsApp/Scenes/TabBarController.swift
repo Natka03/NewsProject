@@ -7,14 +7,10 @@
 
 import UIKit
 
-enum SomeEnum: Int {
-    case mostEmailed = 0
-    case mostViewed = 1
-    case mostShared = 2
-}
-
 final class TabBarController: UITabBarController {
         
+    let typeText = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
       //  tabBar.unselectedItemTintColor = .black

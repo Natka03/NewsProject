@@ -52,6 +52,10 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
         return array.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: "NewsTableViewCell",
