@@ -9,7 +9,6 @@ import UIKit
 
 final class MostEmailedViewController: UIViewController {
     
-    //var mostEmailedTableView = UITableView()
     private var array = ["Stas", "Masha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha Masha", "Kirill", "Nata"]
     let typeText = UIView()
     
@@ -51,7 +50,6 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
            return self.array.count
        }
        
-       // There is just one row in every section
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
            return 1
        }
@@ -78,13 +76,6 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
         }
         let image: UIImage = UIImage(named: "News")!
         cell.setUpCell(text: array[indexPath.section], image: image)
-        
-        cell.backgroundColor = .white
-                cell.layer.borderColor = UIColor.black.cgColor
-                cell.layer.borderWidth = 1
-                cell.layer.cornerRadius = 8
-                cell.clipsToBounds = true
-                
         
         return cell
     }

@@ -42,7 +42,7 @@ final class TabBarController: UITabBarController {
         let item = UITabBarItem(
             title: itemName,
             image: UIImage(systemName: itemImage),
-            selectedImage: UIImage(systemName: itemImage)// how to change to collor
+            selectedImage: UIImage(systemName: itemImage)
         )
         
         let navigation = UINavigationController(rootViewController: vc)

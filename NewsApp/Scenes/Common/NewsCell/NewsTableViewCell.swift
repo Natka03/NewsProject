@@ -8,7 +8,7 @@
 import UIKit
 
 final class NewsTableViewCell: UITableViewCell {
-        //multi
+        
     private var dateView: UIView = {
         let date = UIView()
         date.backgroundColor = .green
@@ -32,7 +32,7 @@ final class NewsTableViewCell: UITableViewCell {
     private var newsTitle: UILabel = {
         let label = UILabel()
         label.textColor = .red
-        label.font = .systemFont(ofSize: 25)
+        label.font = .systemFont(ofSize: 20)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,21 +65,25 @@ final class NewsTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 15)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textAlignment = .center
-        //label.layer.cornerRadius = 3
-
+       
         return label
     }()
+    
     private var newsImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-       // image.layer.cornerRadius = 8
 
         return image
     }()
     
-    func setUpCell(text: String, image: UIImage) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         backgroundColor = .lightGray
+        layer.borderColor = UIColor.black.cgColor
+        layer.borderWidth = 1
+        layer.cornerRadius = 8
+        clipsToBounds = true
         
         contentView.addSubview(dateView)
         contentView.addSubview(typeView)
@@ -89,60 +93,66 @@ final class NewsTableViewCell: UITableViewCell {
         contentView.addSubview(newsLabel)
         contentView.addSubview(newsImage)
         
-        NSLayoutConstraint.activate([
-            typeLabel.leftAnchor.constraint(equalTo: typeView.leftAnchor),
-            typeLabel.rightAnchor.constraint(equalTo: typeView.rightAnchor),
-            typeLabel.topAnchor.constraint(equalTo: typeView.topAnchor),
-            typeLabel.bottomAnchor.constraint(equalTo: typeView.bottomAnchor)
-        ])
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setUpCell(text: String, image: UIImage) {
         
-        NSLayoutConstraint.activate([
-            dateLabel.leftAnchor.constraint(equalTo: dateView.leftAnchor),
-            dateLabel.rightAnchor.constraint(equalTo: dateView.rightAnchor),
-            dateLabel.topAnchor.constraint(equalTo: dateView.topAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: dateView.bottomAnchor)
-        ])
-
-        NSLayoutConstraint.activate([
-            newsImage.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            newsImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            newsImage.widthAnchor.constraint(equalToConstant: 150),
-            newsImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            newsTitle.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
-            newsTitle.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            newsTitle.topAnchor.constraint(equalTo: contentView.topAnchor),
-            newsTitle.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        NSLayoutConstraint.activate([
-            newsLabel.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
-            newsLabel.topAnchor.constraint(equalTo: newsTitle.bottomAnchor),
-            newsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            newsLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            typeView.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
-            typeView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            typeView.widthAnchor.constraint(equalToConstant: 75),
-            typeView.heightAnchor.constraint(equalToConstant: 25),
-//        ])
-        
-//        NSLayoutConstraint.activate([
-            dateView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            dateView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            dateView.widthAnchor.constraint(equalToConstant: 75),
-            dateView.heightAnchor.constraint(equalToConstant: 25)
-        ])
-       
         newsLabel.text = text
         newsImage.image = image
         newsTitle.text = "TITLE"
         dateLabel.text = "Date"
         typeLabel.text = "Type"
-        self.layer.cornerRadius = 10
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            typeLabel.leftAnchor.constraint(equalTo: typeView.leftAnchor),
+            typeLabel.rightAnchor.constraint(equalTo: typeView.rightAnchor),
+            typeLabel.topAnchor.constraint(equalTo: typeView.topAnchor),
+            typeLabel.bottomAnchor.constraint(equalTo: typeView.bottomAnchor),
+        
+            dateLabel.leftAnchor.constraint(equalTo: dateView.leftAnchor),
+            dateLabel.rightAnchor.constraint(equalTo: dateView.rightAnchor),
+            dateLabel.topAnchor.constraint(equalTo: dateView.topAnchor),
+            dateLabel.bottomAnchor.constraint(equalTo: dateView.bottomAnchor),
+       
+            newsImage.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            newsImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            newsImage.widthAnchor.constraint(equalToConstant: 150),
+            newsImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        
+            newsTitle.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
+            newsTitle.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            newsTitle.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                          constant: 16),
+            newsTitle.heightAnchor.constraint(equalToConstant: 50),
+   
+            newsLabel.leftAnchor.constraint(equalTo: newsImage.rightAnchor,
+                                            constant: 16),
+            newsLabel.topAnchor.constraint(equalTo: newsTitle.bottomAnchor),
+            newsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                              constant: -16),
+            newsLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor,
+                                             constant: -16),
+       
+            typeView.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
+            typeView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            typeView.widthAnchor.constraint(equalToConstant: 65),
+            typeView.heightAnchor.constraint(equalToConstant: 25),
+
+            dateView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            dateView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            dateView.widthAnchor.constraint(equalToConstant: 65),
+            dateView.heightAnchor.constraint(equalToConstant: 25)
+        ])
     }
 }
+
+//extension NewsTableViewCell: UITableViewCell{
+//
+//}

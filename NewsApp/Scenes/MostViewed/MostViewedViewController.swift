@@ -14,7 +14,6 @@ class MostViewedViewController: UIViewController {
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
-       // tableView.backgroundColor = .gray
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -22,7 +21,6 @@ class MostViewedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       // view.backgroundColor = .gray
         navigationItem.title = "Most Viewed"
         
         createTableView()
@@ -60,17 +58,26 @@ class MostViewedViewController: UIViewController {
 
 extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
+           return self.array.count
+       }
        
-        return array.count
-    }
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 100
-//    }
+       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+           return 1
+       }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 200
     }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+            return 5
+        }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+           let headerView = UIView()
+           return headerView
+       }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -80,8 +87,8 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let image: UIImage = UIImage(named: "News")!
-        cell.setUpCell(text: array[indexPath.row], image: image)
-       
+        cell.setUpCell(text: array[indexPath.section], image: image)
+        
         return cell
     }
 }
