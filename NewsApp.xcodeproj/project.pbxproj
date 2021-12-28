@@ -28,6 +28,7 @@
 		B7809388276A160500C90B0D /* MostSharedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7809386276A160500C90B0D /* MostSharedViewController.swift */; };
 		B7809389276A160500C90B0D /* MostSharedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7809387276A160500C90B0D /* MostSharedViewController.xib */; };
 		B780938D276A1BA900C90B0D /* MostShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = B780938C276A1BA900C90B0D /* MostShared.swift */; };
+		B789001E277B027100A4ECE8 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B789001D277B027100A4ECE8 /* NetworkModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		B7809386276A160500C90B0D /* MostSharedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSharedViewController.swift; sourceTree = "<group>"; };
 		B7809387276A160500C90B0D /* MostSharedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MostSharedViewController.xib; sourceTree = "<group>"; };
 		B780938C276A1BA900C90B0D /* MostShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostShared.swift; sourceTree = "<group>"; };
+		B789001D277B027100A4ECE8 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		C11628B934CC4DDCBDDE52FE /* Pods-NewsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.release.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.release.xcconfig"; sourceTree = "<group>"; };
 		DEDB1578DEE6C42E6F74AB31 /* Pods-NewsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.debug.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +92,7 @@
 		B7651FCE2774A8440087B4A8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B789001D277B027100A4ECE8 /* NetworkModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				B780936B276A07AF00C90B0D /* NewsApp.xcdatamodeld in Sources */,
 				B780937D276A0A9900C90B0D /* TabBarController.swift in Sources */,
 				B7809384276A0B0600C90B0D /* MostFavoriteModel.swift in Sources */,
+				B789001E277B027100A4ECE8 /* NetworkModel.swift in Sources */,
 				B7809363276A07AF00C90B0D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

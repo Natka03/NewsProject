@@ -8,6 +8,6 @@
 import Foundation
 
 struct MostFavoriteModel {
-    let items: [NewsTableViewCellModel]
+  //  let items: [NewsTableViewCellModel]
     
 }

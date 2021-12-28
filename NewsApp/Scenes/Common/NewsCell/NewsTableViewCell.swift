@@ -100,13 +100,13 @@ final class NewsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setUpCell(text: String, image: UIImage) {
+    public func setUpCell(text: String, image: UIImage, title: String, date: String, type: String) {
         
         newsLabel.text = text
         newsImage.image = image
-        newsTitle.text = "TITLE"
-        dateLabel.text = "Date"
-        typeLabel.text = "Type"
+        newsTitle.text = title
+        dateLabel.text = date
+        typeLabel.text = type
     }
     
     private func setupConstraints() {

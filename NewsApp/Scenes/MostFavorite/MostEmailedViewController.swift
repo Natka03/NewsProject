@@ -11,17 +11,24 @@ final class MostEmailedViewController: UIViewController {
     
     private var array = ["Stas", "Masha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha Masha", "Kirill", "Nata"]
     let typeText = UIView()
+    let url = "emailed/{30}"
+    var it = [Welcome] ()
+   // items = Welcome.data.byline
+let networkManager = NetworkManager()
     
     @IBOutlet private weak var tableView: UITableView! 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+      //  self.it.append()
+       // self.items = data.byline
+        //self.tableView.reloadData()
         navigationItem.title = "Most Emailed"
         createTableView()
         setUpButtonFavorite()
-
+        networkManager.req()
     }
-    
+   
     private func createTableView() {
         guard let tableView = tableView else { return }
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
@@ -42,6 +49,11 @@ final class MostEmailedViewController: UIViewController {
     @objc func action() {
         print("Favorite")
     }
+    
+//    func fetchMostEmailed(urlM: String) -> Model: Codable{
+//       
+//        
+//    }
 }
 
 extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource {
@@ -74,8 +86,13 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
         ) as? NewsTableViewCell else {
             return UITableViewCell()
         }
+        
         let image: UIImage = UIImage(named: "News")!
-        cell.setUpCell(text: array[indexPath.section], image: image)
+        cell.setUpCell(text: array[indexPath.section],
+                       image: image,
+                       title: "TITLE",
+                       date: "Date",
+                       type: "Type")
         
         return cell
     }

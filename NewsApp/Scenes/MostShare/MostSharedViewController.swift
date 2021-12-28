@@ -76,7 +76,11 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let image: UIImage = UIImage(named: "News")!
-        cell.setUpCell(text: array[indexPath.section], image: image)
+        cell.setUpCell(text: array[indexPath.section],
+                        image: image,
+                        title: "TITLE",
+                        date: "Date",
+                        type: "Type")
         
         return cell
     }
