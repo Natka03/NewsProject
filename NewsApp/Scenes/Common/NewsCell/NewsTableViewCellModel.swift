@@ -7,6 +7,14 @@
 
 import Foundation
 
+struct NewsTableViewCellModel {
+    let imageURL: String
+    let title: String
+    let date: String
+    let newsSection: String
+    let newsText: String
+}
+
 //
 //struct NewsTableViewCellModel: Codable {
 //   

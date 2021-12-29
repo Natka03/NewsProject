@@ -9,8 +9,8 @@ import UIKit
 
 final class MostSharedViewController: UIViewController {
 
-//    var mostSharedTableView = UITableView()
-   private var array = ["Stas", "Masha", "Kirill", "Nata"]
+    private var array = ["Stas", "Masha", "Kirill", "Nata"]
+    let networkManager = NetworkManager()
     
     @IBOutlet private weak var tableView: UITableView!
 
@@ -20,14 +20,13 @@ final class MostSharedViewController: UIViewController {
         
         createTableView()
         setUpButtonFavorite()
+      //  networkManager.fetchNews(nesType: .mostShared, arrayPubl: array)
     }
 
     private func createTableView() {
-//        mostSharedTableView = UITableView(frame: view.bounds, style: .plain)
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
-      //  tableView.backgroundColor = .gray
     }
     
     func setUpButtonFavorite () {

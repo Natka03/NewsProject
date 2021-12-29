@@ -10,25 +10,48 @@ import UIKit
 final class MostEmailedViewController: UIViewController {
     
     private var array = ["Stas", "Masha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha MashaMasha Masha Masha Masha Masha", "Kirill", "Nata"]
-    let typeText = UIView()
-    let url = "emailed/{30}"
-    var it = [Welcome] ()
-   // items = Welcome.data.byline
-let networkManager = NetworkManager()
+    
+    let networkManager = NetworkManager()
+    var model: MostFavoriteModel = .init(items: [])
     
     @IBOutlet private weak var tableView: UITableView! 
     
+    //MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  self.it.append()
-       // self.items = data.byline
-        //self.tableView.reloadData()
         navigationItem.title = "Most Emailed"
         createTableView()
+        fetchData()
         setUpButtonFavorite()
-        networkManager.req()
     }
    
+    
+    //MARK: - private methods
+    
+    private func fetchData() {
+        networkManager.fetchMostNews(nesType: .mostEmailed) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                
+            case .success(let data):
+                self.model.items = data.data.compactMap { item in
+                    return NewsTableViewCellModel(
+                        imageURL: "",
+                        title: item.title,
+                        date: item.publishedDate,
+                        newsSection: item.section,
+                        newsText: "asdbahsdghagsdhgvashgdakshgdaghsdvkgahsfvaflafhj"
+                    )
+                }
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+            print(self.model)
+        }
+    }
+    
     private func createTableView() {
         guard let tableView = tableView else { return }
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
@@ -36,7 +59,7 @@ let networkManager = NetworkManager()
         tableView.dataSource = self
     }
     
-    func setUpButtonFavorite () {
+    private func setUpButtonFavorite () {
         let favoriteButton = UIBarButtonItem(
             image: UIImage(systemName: "heart.fill"),
             style: .plain,
@@ -49,11 +72,6 @@ let networkManager = NetworkManager()
     @objc func action() {
         print("Favorite")
     }
-    
-//    func fetchMostEmailed(urlM: String) -> Model: Codable{
-//       
-//        
-//    }
 }
 
 extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource {
@@ -96,4 +114,9 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
         
         return cell
     }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let arr = array[indexPath.section]
+//        performSegue(withIdentifier: "showDetail", sender: arr)
+//    }
+//    func tableView
 }

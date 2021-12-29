@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 import Alamofire
 
-struct Welcome: Codable {
+struct News: Codable {
     let status: String
     let copyright: String
     let numResults: Int
