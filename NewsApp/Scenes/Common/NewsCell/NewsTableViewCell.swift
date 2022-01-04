@@ -8,10 +8,23 @@
 import UIKit
 
 final class NewsTableViewCell: UITableViewCell {
+    
+    private var containerView: UIView = {
+        let view = UIView()
         
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .lightGray
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 8
+        view.clipsToBounds = true
+        
+        return view
+    }()
+    
     private var dateView: UIView = {
         let date = UIView()
-        date.backgroundColor = .green
+        date.backgroundColor = .yellow
         date.layer.cornerRadius = 5
         date.layer.maskedCorners = .layerMinXMaxYCorner
         date.translatesAutoresizingMaskIntoConstraints = false
@@ -21,21 +34,23 @@ final class NewsTableViewCell: UITableViewCell {
     
     private var typeView: UIView = {
         let type = UIView()
-        type.backgroundColor = .white
+        type.backgroundColor = .orange
         type.translatesAutoresizingMaskIntoConstraints = false
         type.layer.cornerRadius = 5
         type.layer.maskedCorners = .layerMaxXMaxYCorner
-
+        
         return type
     }()
     
     private var newsTitle: UILabel = {
         let label = UILabel()
-        label.textColor = .red
-        label.font = .systemFont(ofSize: 20)
+        label.textColor = .systemRed
+        label.font = .systemFont(ofSize: 17)
+        //label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        
+        label.numberOfLines = 0
+
         return label
     }()
     
@@ -45,53 +60,49 @@ final class NewsTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 15)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return label
     }()
     
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 12)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return label
     }()
-
+    
     private var newsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = .systemFont(ofSize: 15)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-       
+        
         return label
     }()
     
     private var newsImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return image
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = .lightGray
-        layer.borderColor = UIColor.black.cgColor
-        layer.borderWidth = 1
-        layer.cornerRadius = 8
-        clipsToBounds = true
+        contentView.addSubview(containerView)
         
-        contentView.addSubview(dateView)
-        contentView.addSubview(typeView)
-        contentView.addSubview(typeLabel)
-        contentView.addSubview(dateLabel)
-        contentView.addSubview(newsTitle)
-        contentView.addSubview(newsLabel)
-        contentView.addSubview(newsImage)
+        containerView.addSubview(dateView)
+        containerView.addSubview(typeView)
+        containerView.addSubview(typeLabel)
+        containerView.addSubview(dateLabel)
+        containerView.addSubview(newsTitle)
+        containerView.addSubview(newsLabel)
+        containerView.addSubview(newsImage)
         
         setupConstraints()
     }
@@ -111,43 +122,52 @@ final class NewsTableViewCell: UITableViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                               constant: 8.0),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                  constant: -8.0),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
             typeLabel.leftAnchor.constraint(equalTo: typeView.leftAnchor),
             typeLabel.rightAnchor.constraint(equalTo: typeView.rightAnchor),
             typeLabel.topAnchor.constraint(equalTo: typeView.topAnchor),
             typeLabel.bottomAnchor.constraint(equalTo: typeView.bottomAnchor),
-        
+            
             dateLabel.leftAnchor.constraint(equalTo: dateView.leftAnchor),
             dateLabel.rightAnchor.constraint(equalTo: dateView.rightAnchor),
             dateLabel.topAnchor.constraint(equalTo: dateView.topAnchor),
             dateLabel.bottomAnchor.constraint(equalTo: dateView.bottomAnchor),
-       
-            newsImage.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            newsImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            
+            newsImage.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+            newsImage.topAnchor.constraint(equalTo: containerView.topAnchor),
             newsImage.widthAnchor.constraint(equalToConstant: 150),
-            newsImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-        
-            newsTitle.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
-            newsTitle.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            newsTitle.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                          constant: 16),
-            newsTitle.heightAnchor.constraint(equalToConstant: 50),
-   
+            newsImage.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            
+            newsTitle.leftAnchor.constraint(equalTo: newsImage.rightAnchor,
+                                           constant: 5),
+            newsTitle.rightAnchor.constraint(equalTo: containerView.rightAnchor,
+                                            constant: -5),
+            newsTitle.topAnchor.constraint(equalTo: containerView.topAnchor,
+                                           constant: 16),
+            newsTitle.heightAnchor.constraint(equalToConstant: 100),
+            
             newsLabel.leftAnchor.constraint(equalTo: newsImage.rightAnchor,
                                             constant: 16),
             newsLabel.topAnchor.constraint(equalTo: newsTitle.bottomAnchor),
-            newsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+            newsLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
                                               constant: -16),
-            newsLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor,
+            newsLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor,
                                              constant: -16),
-       
+            
             typeView.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
-            typeView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            typeView.widthAnchor.constraint(equalToConstant: 65),
+            typeView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            typeView.widthAnchor.constraint(equalToConstant: 100),
             typeView.heightAnchor.constraint(equalToConstant: 25),
-
-            dateView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            dateView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            dateView.widthAnchor.constraint(equalToConstant: 65),
+            
+            dateView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+            dateView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            dateView.widthAnchor.constraint(equalToConstant: 75),
             dateView.heightAnchor.constraint(equalToConstant: 25)
         ])
     }

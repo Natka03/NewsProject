@@ -9,8 +9,9 @@ import UIKit
 
 class MostViewedViewController: UIViewController {
 
-    private var array = ["Stas", "Masha", "Kirill", "Nata"]
-    
+    let networkManager = NetworkManager()
+    var model: MostFavoriteModel = .init(items: [])
+
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
@@ -22,15 +23,41 @@ class MostViewedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Most Viewed"
-        
+        fetchData()
         createTableView()
         setUpButtonFavorite()
+    }
+    
+    //MARK: - private methods
+    
+    private func fetchData() {
+        networkManager.fetchMostNews(nesType: .mostVived) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                let items: [NewsTableViewCellModel] = data.data.compactMap { item in
+                    return NewsTableViewCellModel(
+                        imageURL: "",
+                        title: item.title,
+                        date: item.publishedDate,
+                        newsSection: item.section,
+                        newsText: "asdbahsdghagsdhgvashgdakshgdaghsdvkgahsfvaflafhj"
+                    )
+                }
+                
+                self.model = MostFavoriteModel(items: items)
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 
     private func createTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.separatorStyle = .none
+
         view.addSubview(tableView)
     
         NSLayoutConstraint.activate([
@@ -58,26 +85,22 @@ class MostViewedViewController: UIViewController {
 
 extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-           return self.array.count
-       }
-       
-       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           return 1
-       }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return model.items.count
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 5
-        }
+        return 5
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-           let headerView = UIView()
-           return headerView
-       }
+        let headerView = UIView()
+        return headerView
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -86,12 +109,15 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? NewsTableViewCell else {
             return UITableViewCell()
         }
+        
+        let item = model.items[indexPath.row]
+        
         let image: UIImage = UIImage(named: "News")!
-        cell.setUpCell(text: array[indexPath.section],
+        cell.setUpCell(text: item.newsText,
                        image: image,
-                       title: "TITLE",
-                       date: "Date",
-                       type: "Type")
+                       title: item.title,
+                       date: item.date,
+                       type: item.newsSection)
         
         return cell
     }

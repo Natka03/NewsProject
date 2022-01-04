@@ -29,6 +29,8 @@
 		B7809389276A160500C90B0D /* MostSharedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7809387276A160500C90B0D /* MostSharedViewController.xib */; };
 		B780938D276A1BA900C90B0D /* MostShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = B780938C276A1BA900C90B0D /* MostShared.swift */; };
 		B789001E277B027100A4ECE8 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B789001D277B027100A4ECE8 /* NetworkModel.swift */; };
+		B7A279EA2784537D009B4B77 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A279E82784537D009B4B77 /* FavoriteViewController.swift */; };
+		B7A279EB2784537D009B4B77 /* FavoriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7A279E92784537D009B4B77 /* FavoriteViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,8 @@
 		B7809387276A160500C90B0D /* MostSharedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MostSharedViewController.xib; sourceTree = "<group>"; };
 		B780938C276A1BA900C90B0D /* MostShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostShared.swift; sourceTree = "<group>"; };
 		B789001D277B027100A4ECE8 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
+		B7A279E82784537D009B4B77 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		B7A279E92784537D009B4B77 /* FavoriteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteViewController.xib; sourceTree = "<group>"; };
 		C11628B934CC4DDCBDDE52FE /* Pods-NewsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.release.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.release.xcconfig"; sourceTree = "<group>"; };
 		DEDB1578DEE6C42E6F74AB31 /* Pods-NewsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.debug.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,6 +160,7 @@
 				B780937E276A0AA000C90B0D /* MostFavorite */,
 				B7809385276A15B000C90B0D /* MostShare */,
 				B78CCFA4276C8E3600458C7F /* MostViewed */,
+				B7A279E3278452A1009B4B77 /* Favorite */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -204,6 +209,15 @@
 				B76145A2276CAB1F00708BAD /* MostViewedViewController.xib */,
 			);
 			path = MostViewed;
+			sourceTree = "<group>";
+		};
+		B7A279E3278452A1009B4B77 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				B7A279E82784537D009B4B77 /* FavoriteViewController.swift */,
+				B7A279E92784537D009B4B77 /* FavoriteViewController.xib */,
+			);
+			path = Favorite;
 			sourceTree = "<group>";
 		};
 		B7DCB769276B269B0066E70E /* Common */ = {
@@ -286,6 +300,7 @@
 			files = (
 				B7809389276A160500C90B0D /* MostSharedViewController.xib in Resources */,
 				B76145A4276CAB1F00708BAD /* MostViewedViewController.xib in Resources */,
+				B7A279EB2784537D009B4B77 /* FavoriteViewController.xib in Resources */,
 				B7809370276A07B100C90B0D /* LaunchScreen.storyboard in Resources */,
 				B76145A8276CAB7000708BAD /* NewsTableViewCell.xib in Resources */,
 				B7809382276A0AD700C90B0D /* MostEmailedViewController.xib in Resources */,
@@ -347,6 +362,7 @@
 				B7809365276A07AF00C90B0D /* ViewController.swift in Sources */,
 				B76145A7276CAB7000708BAD /* NewsTableViewCell.swift in Sources */,
 				B7651FCD2774A81B0087B4A8 /* NetworkManager.swift in Sources */,
+				B7A279EA2784537D009B4B77 /* FavoriteViewController.swift in Sources */,
 				B7809361276A07AF00C90B0D /* AppDelegate.swift in Sources */,
 				B7809388276A160500C90B0D /* MostSharedViewController.swift in Sources */,
 				B76145A3276CAB1F00708BAD /* MostViewedViewController.swift in Sources */,

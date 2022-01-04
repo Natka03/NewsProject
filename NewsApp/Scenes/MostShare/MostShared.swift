@@ -6,3 +6,6 @@
 //
 
 import Foundation
+struct MostShared {
+    var items: [NewsTableViewCellModel]
+}
