@@ -21,15 +21,34 @@ struct News: Codable {
         case data = "results"
     }
 }
+
 struct Data: Codable {
     let publishedDate: String
     let section: String
-    let title: String
+    let title, abstract: String
+    let media: [Media]
     
     enum CodingKeys: String, CodingKey {
             case publishedDate = "published_date"
             case section
-            case title
+            case title, abstract
+            case media
         }
 }
 
+struct Media: Codable {
+    let mediaMetadata: [MediaMetadatum]
+    
+    enum CodingKeys: String, CodingKey {
+        case mediaMetadata = "media-metadata"
+    }
+
+}
+
+struct MediaMetadatum: Codable{
+    let urlImage: String
+
+    enum CodingKeys: String, CodingKey {
+        case urlImage = "url"
+    }
+}

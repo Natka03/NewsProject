@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SwiftUI
+import Kingfisher
 
 final class MostSharedViewController: UIViewController {
 
     let networkManager = NetworkManager()
-    var model: MostFavoriteModel = .init(items: [])
+    var model: NewsModel = .init(items: [])
     
     @IBOutlet private weak var tableView: UITableView!
 
@@ -31,15 +33,15 @@ final class MostSharedViewController: UIViewController {
             case .success(let data):
                 let items: [NewsTableViewCellModel] = data.data.compactMap { item in
                     return NewsTableViewCellModel(
-                        imageURL: "",
+                        imageURL: item.media.first?.mediaMetadata.first?.urlImage ?? "" ,
                         title: item.title,
                         date: item.publishedDate,
                         newsSection: item.section,
-                        newsText: "asdbahsdghagsdhgvashgdakshgdaghsdvkgahsfvaflafhj"
+                        newsText: item.abstract
                     )
                 }
                 
-                self.model = MostFavoriteModel(items: items)
+                self.model = NewsModel(items: items)
                 self.tableView.reloadData()
             case .failure(let error):
                 print(error)
@@ -98,12 +100,16 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = model.items[indexPath.row]
         
-        let image: UIImage = UIImage(named: "News")!
+//        let url = URL(string: item.imageURL)
+//        let image = UIImageView()
+//        image.kf.setImage(with: url)
+        
+//        let image: UIImage = UIImage(named: "News")!
         cell.setUpCell(text: item.newsText,
-                       image: image,
                        title: item.title,
                        date: item.date,
-                       type: item.newsSection)
+                       type: item.newsSection,
+                       ImageUrl: item.imageURL)
         
         return cell
     }

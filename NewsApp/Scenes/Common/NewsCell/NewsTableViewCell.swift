@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class NewsTableViewCell: UITableViewCell {
     
@@ -46,7 +47,6 @@ final class NewsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .systemRed
         label.font = .systemFont(ofSize: 17)
-        //label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -77,7 +77,7 @@ final class NewsTableViewCell: UITableViewCell {
     private var newsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         
@@ -111,10 +111,25 @@ final class NewsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setUpCell(text: String, image: UIImage, title: String, date: String, type: String) {
+    public func setUpCell(text: String, title: String, date: String, type: String, ImageUrl: String) {
+        let url = URL(string: ImageUrl) ?? URL(fileURLWithPath: "")
+        let image = UIImageView()
+        let imagePlaceholder: UIImage = UIImage(named: "News")!
+        image.kf.setImage(
+            with: url,
+            placeholder: imagePlaceholder )
+        let resource = ImageResource(downloadURL: url)
         
+        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
+            switch result {
+            case .success(let value):
+                self.newsImage.image = value.image
+                print("Image: \(value.image). Got from: \(value.cacheType)")
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
         newsLabel.text = text
-        newsImage.image = image
         newsTitle.text = title
         dateLabel.text = date
         typeLabel.text = type

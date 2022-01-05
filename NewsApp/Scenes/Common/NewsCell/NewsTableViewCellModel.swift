@@ -15,18 +15,4 @@ struct NewsTableViewCellModel {
     let newsText: String
 }
 
-//
-//struct NewsTableViewCellModel: Codable {
-//   
-//    let results: [Result]
-//
-//  //  let results:
-//    
-////    let imageURL: String?
-////    let title: String
-////    let text: String
-//}
-//
-//struct Result: Codable {
-//    let publishedDate: String
-//}
+

@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class MostEmailedViewController: UIViewController {
     
     let networkManager = NetworkManager()
-    var model: MostFavoriteModel = .init(items: [])
+    let webNewsViewController = WebNewsViewController()
+    var model: NewsModel = .init(items: [])
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -25,30 +27,6 @@ final class MostEmailedViewController: UIViewController {
     }
     
     //MARK: - private methods
-//    func getImage(from string: String) -> UIImage? {
-//        //2. Get valid URL
-//        guard let url = URL(string: string)
-//            else {
-//                print("Unable to create URL")
-//                return nil
-//        }
-//
-//        var image: UIImage? = nil
-//        do {
-//            //3. Get valid data
-//         //   let data = try Data(contentsOf: url, options: [])
-//            let data1 = try NSData(contentsOf: url )
-//            //4. Make image
-//            image = UIImage(data: data1 as! Data)
-//        }
-//        catch {
-//            print(error.localizedDescription)
-//        }
-//
-//        return image
-//    }
-
-       
     
     private func fetchData() {
         networkManager.fetchMostNews(nesType: .mostEmailed) { [weak self] result in
@@ -57,20 +35,19 @@ final class MostEmailedViewController: UIViewController {
             case .success(let data):
                 let items: [NewsTableViewCellModel] = data.data.compactMap { item in
                     return NewsTableViewCellModel(
-                        imageURL: "",
+                        imageURL: item.media.first?.mediaMetadata.first?.urlImage ?? "",
                         title: item.title,
                         date: item.publishedDate,
                         newsSection: item.section,
-                        newsText: "asdbahsdghagsdhgvashgdakshgdaghsdvkgahsfvaflafhj"
+                        newsText: item.abstract
                     )
                 }
                 
-                self.model = MostFavoriteModel(items: items)
+                self.model = NewsModel(items: items)
                 self.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }
-            print(self.model.items[0].date)
         }
     }
     
@@ -126,29 +103,14 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
         
         let item = model.items[indexPath.row]
         
-        //let string = "https://static01.nyt.com/images/2021/12/08/science/08virus-fat/08virus-fat-thumbStandard.jpg"
-
-     //   if let image = getImage(from: string) {
-            //5. Apply image
-//            cell.setUpCell(text: item.newsText,
-//                           image: image,
-//                           title: item.title,
-//                           date: item.date,
-//                           type: item.newsSection)        }
-//
-        let image: UIImage = UIImage(named: "News")!
-     //   let image = URL(string: "https://static01.nyt.com/images/2021/12/08/science/08virus-fat/08virus-fat-thumbStandard.jpg")
+        
         cell.setUpCell(text: item.newsText,
-                       image: image,
                        title: item.title,
                        date: item.date,
-                       type: item.newsSection)
-        
+                       type: item.newsSection,
+                       ImageUrl: item.imageURL)
+
         return cell
     }
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        let arr = array[indexPath.section]
-    //        performSegue(withIdentifier: "showDetail", sender: arr)
-    //    }
-    //    func tableView
+    
 }

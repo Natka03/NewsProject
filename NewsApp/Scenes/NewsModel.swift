@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct MostFavoriteModel {
+struct NewsModel {
     var items: [NewsTableViewCellModel]
 }
