@@ -13,6 +13,7 @@ final class MostSharedViewController: UIViewController {
 
     let networkManager = NetworkManager()
     var model: NewsModel = .init(items: [])
+    var someLink: String = ""
     
     @IBOutlet private weak var tableView: UITableView!
 
@@ -21,7 +22,6 @@ final class MostSharedViewController: UIViewController {
         navigationItem.title = "Most Shared"
         fetchData()
         createTableView()
-        setUpButtonFavorite()
     }
     
     //MARK: - private methods
@@ -37,7 +37,8 @@ final class MostSharedViewController: UIViewController {
                         title: item.title,
                         date: item.publishedDate,
                         newsSection: item.section,
-                        newsText: item.abstract
+                        newsText: item.abstract,
+                        url: item.url
                     )
                 }
                 
@@ -54,20 +55,6 @@ final class MostSharedViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-    }
-    
-    func setUpButtonFavorite () {
-        let favoriteButton = UIBarButtonItem(
-            image: UIImage(systemName: "heart.fill"),
-            style: .plain,
-            target: self,
-            action: #selector(action)
-        )
-         navigationItem.rightBarButtonItem = favoriteButton
-    }
-    
-    @objc func action() {
-        print("Favorite")
     }
 }
 
@@ -99,12 +86,7 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let item = model.items[indexPath.row]
-        
-//        let url = URL(string: item.imageURL)
-//        let image = UIImageView()
-//        image.kf.setImage(with: url)
-        
-//        let image: UIImage = UIImage(named: "News")!
+       
         cell.setUpCell(text: item.newsText,
                        title: item.title,
                        date: item.date,
@@ -112,6 +94,19 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
                        ImageUrl: item.imageURL)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        self.someLink = model.items[indexPath.row].url
+        let vc = WebNewsViewController(
+            model: WebNewsModel(
+                webUrl: someLink
+            )
+        )
+        vc.hidesBottomBarWhenPushed = true
+       navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
 

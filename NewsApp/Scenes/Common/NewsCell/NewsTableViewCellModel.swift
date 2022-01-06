@@ -13,6 +13,7 @@ struct NewsTableViewCellModel {
     let date: String
     let newsSection: String
     let newsText: String
+    let url: String
 }
 
 

@@ -10,7 +10,10 @@ import UIKit
 final class TabBarController: UITabBarController {
         
     let typeText = UIView()
+    var modelCell: [NewsTableViewCellModel] = []
     
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTabBar()
@@ -29,11 +32,11 @@ final class TabBarController: UITabBarController {
             vc: MostViewedViewController(),
             itemName: "Most Viewed",
             itemImage: "calendar.badge.clock")
-//        let favoriteVC = createNavigation(
-//            vc: FavoriteViewController,
-//            itemName: "Favorite",
-//            itemImage: "heart.fill")
-        viewControllers = [emailedVC, sharedVC, viewedVC]       
+        let favoriteVC = createNavigation(
+            vc: FavoriteViewController(model: modelCell),
+            itemName: "Favorite",
+            itemImage: "heart.fill")
+        viewControllers = [emailedVC, sharedVC, viewedVC, favoriteVC]       
     }
     
     func createNavigation(

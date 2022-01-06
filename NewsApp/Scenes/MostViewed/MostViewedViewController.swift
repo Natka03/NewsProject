@@ -13,6 +13,7 @@ class MostViewedViewController: UIViewController {
 
     let networkManager = NetworkManager()
     var model: NewsModel = .init(items: [])
+    var someLink: String = ""
 
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -27,7 +28,6 @@ class MostViewedViewController: UIViewController {
         navigationItem.title = "Most Viewed"
         fetchData()
         createTableView()
-        setUpButtonFavorite()
     }
     
     //MARK: - private methods
@@ -43,7 +43,9 @@ class MostViewedViewController: UIViewController {
                         title: item.title,
                         date: item.publishedDate,
                         newsSection: item.section,
-                        newsText: item.abstract                    )
+                        newsText: item.abstract,
+                        url: item.url
+                    )
                 }
                 
                 self.model = NewsModel(items: items)
@@ -67,20 +69,6 @@ class MostViewedViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-    
-    func setUpButtonFavorite () {
-        let favoriteButton = UIBarButtonItem(
-            image: UIImage(systemName: "heart.fill"),
-            style: .plain,
-            target: self,
-            action: #selector(action)
-        )
-         navigationItem.rightBarButtonItem = favoriteButton
-    }
-    
-    @objc func action() {
-        print("Favorite")
     }
 }
 
@@ -112,12 +100,7 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let item = model.items[indexPath.row]
-//
-//        let url = URL(string: item.imageURL)
-//        let image = UIImageView()
-//        image.kf.setImage(with: url)
         
-       // let image: UIImage = UIImage(named: "News")!
         cell.setUpCell(text: item.newsText,
                        title: item.title,
                        date: item.date,
@@ -125,5 +108,18 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
                        ImageUrl: item.imageURL)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        self.someLink = model.items[indexPath.row].url
+        let vc = WebNewsViewController(
+            model: WebNewsModel(
+                webUrl: someLink
+            )
+        )
+        vc.hidesBottomBarWhenPushed = true
+       navigationController?.pushViewController(vc, animated: true)
+        
     }
 }

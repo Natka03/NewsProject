@@ -11,8 +11,8 @@ import Kingfisher
 final class MostEmailedViewController: UIViewController {
     
     let networkManager = NetworkManager()
-    let webNewsViewController = WebNewsViewController()
     var model: NewsModel = .init(items: [])
+    var someLink: String = ""
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -23,7 +23,6 @@ final class MostEmailedViewController: UIViewController {
         navigationItem.title = "Most Emailed"
         fetchData()
         createTableView()
-        setUpButtonFavorite()
     }
     
     //MARK: - private methods
@@ -39,10 +38,11 @@ final class MostEmailedViewController: UIViewController {
                         title: item.title,
                         date: item.publishedDate,
                         newsSection: item.section,
-                        newsText: item.abstract
+                        newsText: item.abstract,
+                        url: item.url
                     )
+                   
                 }
-                
                 self.model = NewsModel(items: items)
                 self.tableView.reloadData()
             case .failure(let error):
@@ -57,20 +57,6 @@ final class MostEmailedViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-    }
-    
-    private func setUpButtonFavorite () {
-        let favoriteButton = UIBarButtonItem(
-            image: UIImage(systemName: "heart.fill"),
-            style: .plain,
-            target: self,
-            action: #selector(action)
-        )
-        navigationItem.rightBarButtonItem = favoriteButton
-    }
-    
-    @objc func action() {
-        print("Favorite")
     }
 }
 
@@ -111,6 +97,20 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
                        ImageUrl: item.imageURL)
 
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        self.someLink = model.items[indexPath.row].url
+        
+        let vc = WebNewsViewController(
+            model: WebNewsModel(
+                webUrl: someLink
+            )
+        )
+        vc.hidesBottomBarWhenPushed = true
+       navigationController?.pushViewController(vc, animated: true)
+        
     }
     
 }

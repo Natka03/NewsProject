@@ -119,7 +119,7 @@ final class NewsTableViewCell: UITableViewCell {
             with: url,
             placeholder: imagePlaceholder )
         let resource = ImageResource(downloadURL: url)
-        
+                
         KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
             switch result {
             case .success(let value):
@@ -163,9 +163,8 @@ final class NewsTableViewCell: UITableViewCell {
                                            constant: 5),
             newsTitle.rightAnchor.constraint(equalTo: containerView.rightAnchor,
                                             constant: -5),
-            newsTitle.topAnchor.constraint(equalTo: containerView.topAnchor,
-                                           constant: 16),
-            newsTitle.heightAnchor.constraint(equalToConstant: 100),
+            newsTitle.topAnchor.constraint(equalTo: typeView.bottomAnchor),
+            newsTitle.heightAnchor.constraint(equalToConstant: 35),
             
             newsLabel.leftAnchor.constraint(equalTo: newsImage.rightAnchor,
                                             constant: 16),

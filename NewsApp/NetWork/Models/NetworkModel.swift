@@ -27,12 +27,14 @@ struct Data: Codable {
     let section: String
     let title, abstract: String
     let media: [Media]
+    let url: String
     
     enum CodingKeys: String, CodingKey {
             case publishedDate = "published_date"
             case section
             case title, abstract
             case media
+            case url 
         }
 }
 
