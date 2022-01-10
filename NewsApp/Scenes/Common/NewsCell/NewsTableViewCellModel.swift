@@ -14,6 +14,7 @@ struct NewsTableViewCellModel {
     let newsSection: String
     let newsText: String
     let url: String
+    let id: Int
 }
 
 

@@ -33,7 +33,7 @@ final class TabBarController: UITabBarController {
             itemName: "Most Viewed",
             itemImage: "calendar.badge.clock")
         let favoriteVC = createNavigation(
-            vc: FavoriteViewController(model: modelCell),
+            vc: FavoriteViewController(),
             itemName: "Favorite",
             itemImage: "heart.fill")
         viewControllers = [emailedVC, sharedVC, viewedVC, favoriteVC]       

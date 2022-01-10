@@ -10,5 +10,7 @@ import UIKit
 
 struct WebNewsModel {
     let webUrl: String
+    let newsId: Int
+    let imageUrl: String
    // let isFavorite: Bool
 }
