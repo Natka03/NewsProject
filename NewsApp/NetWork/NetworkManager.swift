@@ -16,22 +16,19 @@ enum EndpointUrl: String {
 }
 
 final class NetworkManager {
+    
     static let apiKeyValue = "oVuQGkB5jcXT0Qo2MHHi9AuGQRuDB4eX"
     static let apiKey = "api-key"
     let url = "https://api.nytimes.com/svc/mostpopular/v2/"
     
     let parameters: Parameters = [apiKey: apiKeyValue]
     
-
-    
     public func fetchMostNews(nesType: EndpointUrl, completion: @escaping (Result<News, AFError>) -> Void ) {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
         let url = url + nesType.rawValue
         AF.request(url, method: .get, parameters: parameters)
-          .validate().responseDecodable (of: News.self) { responce in
-              completion(responce.result)
-        }
+            .validate().responseDecodable (of: News.self) { responce in
+                completion(responce.result)
+            }
     }
 }
 

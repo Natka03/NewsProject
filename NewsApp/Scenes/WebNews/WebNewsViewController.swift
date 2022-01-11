@@ -7,17 +7,17 @@
 
 import UIKit
 import WebKit
-import CoreData
-import SwiftUI
 
 class WebNewsViewController: UIViewController {
     
-    let webView = WKWebView()
-    let model: WebNewsModel
-  //  var news: [SaveNews] = []
+    private let coreDataManager: CoreDataManager
+    
+    private let webView = WKWebView()
+    private let model: WebNewsModel
 
     init(model: WebNewsModel) {
         
+        self.coreDataManager = CoreDataManager()
         self.model = model
         
         super.init(nibName: nil, bundle: nil)
@@ -27,15 +27,12 @@ class WebNewsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(webView)
         webNews()
-    }
-    
-    func webNews(){
-        guard let url = URL(string: model.webUrl) else { return }
-        webView.load(URLRequest(url: url))
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,75 +41,65 @@ class WebNewsViewController: UIViewController {
         setUpButtonFavorite()
     }
     
-    private func setUpButtonFavorite () {
+    //MARK: - private methods
+
+    private func webNews() {
+        guard let url = URL(string: model.webUrl) else { return }
+        webView.load(URLRequest(url: url))
+    }
+    
+    private func massageDelete() {
+        let alert = UIAlertController(title: "Delete this article from saved",
+                                      message: "",
+                                      preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "OK",
+                                      style: UIAlertAction.Style.destructive,
+                                      handler: { [weak self] action in
+            guard let self = self else { return }
+            self.coreDataManager.deleteNews(id: self.model.newsId)
+
+            //weak unowned strong self
+            //unwrap
+            
+        })
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+       
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func setUpButtonFavorite() {
+        let isFavorite = coreDataManager.isFavorite(id: model.newsId)
+        
         let favoriteButton = UIBarButtonItem(
             image: UIImage(systemName: "heart.fill"),
             style: .plain,
             target: self,
-            action: #selector(action)
+            action: #selector(didTapFavoriteButton)
         )
+       
+        favoriteButton.tintColor = isFavorite ? .red : .black
         
-       // favoriteButton.tintColor = .orange
         navigationItem.rightBarButtonItem = favoriteButton
     }
     
-    @objc func action() {
-        print("Favorite")
+    private func handleFavorites() {
+        let isFavorite = coreDataManager.isFavorite(id: model.newsId)
         
-         let f = isFavorite(id: model.newsId)
-        if f == true{
-            saveNews(id: model.newsId, imageUrl: model.imageUrl)
+        if isFavorite {
+            massageDelete()
+        } else {
+            coreDataManager.saveNews(model: model)
         }
-//        saveNews(id: model.newsId, imageUrl: model.imageUrl)
         
-    }
-    
-    private func isFavorite(id: Int) -> Bool {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest : NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "saveId == %@", id)
+        navigationItem.rightBarButtonItem?.tintColor = isFavorite ? .black : .red
 
-        do {
-               let fetchedResults = try context.fetch(fetchRequest)
-               if let aContact = fetchedResults.first {
-                 // providerName.text = aContact.providerName
-                   
-                   return true
-               }
-           }
-           catch {
-               print ("fetch task failed", error)
-              
-           }
-        
-//        if let savedId = context.existingObject(with: id) {
-//            request.predicate = NSPredicate(format: "saveId = %@", id)
-//        } else {
-//
-//        } return false
-        return false
     }
     
-    private func saveNews(id: Int, imageUrl: String) {
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        guard let entity = NSEntityDescription.entity(forEntityName: "SaveNews", in: context) else { return }
-        
-        let newsObject = SaveNews(entity: entity, insertInto: context)
-        newsObject.saveId = Int64(id)
-        newsObject.saveUrl = imageUrl
-        
-        do {
-         //   news.append(newsObject)
-            try context.save()
-            
-        } catch let error as NSError {
-            
-            print(error.localizedDescription)
-        }
+    //MARK: - Actions
+    
+    @objc func didTapFavoriteButton() {
+        handleFavorites()
     }
 }

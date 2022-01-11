@@ -6,13 +6,12 @@
 //
 
 import UIKit
-import CoreData
 
 class FavoriteViewController: UIViewController {
     
-    let arr = ["sadwed", "dadeg", "efwfwwfe"]
     var news: [SaveNews] = []
-
+    private let coreDataManager = CoreDataManager()
+    
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
@@ -21,90 +20,38 @@ class FavoriteViewController: UIViewController {
         return tableView
     }()
     
+    //MARK: - LifeCycle
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
+        news = coreDataManager.fetchReguest(model: news)
         
-        let fetchReguest: NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
-        
-        do {
-            news = try context.fetch(fetchReguest)
-        } catch let error as NSError {
-            
-            print(error.localizedDescription)
-        }
         self.tableView.reloadData()
-
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Favorite"
         createTableView()
-        setUpButtonFavorite()
     }
     
+    //MARK: - private methods
+
     private func createTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-
+        
         view.addSubview(tableView)
-    
+        
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-    
-    private func setUpButtonFavorite () {
-        let favoriteButton = UIBarButtonItem(
-            image: UIImage(systemName: "heart.fill"),
-            style: .plain,
-            target: self,
-            action: #selector(action)
-        )
-        
-       // favoriteButton.tintColor = .orange
-        navigationItem.rightBarButtonItem = favoriteButton
-    }
-    
-    @objc func action() {
-        print("Favorite")
-        
-       // saveNews(id: model.newsId, imageUrl: model.imageUrl)
-        deleteNews()
-    }
-    
-    private func deleteNews() {
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        let fetchReguest: NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
-
-        if let news = try? context.fetch(fetchReguest) {
-            for new in news {
-                context.delete(new)
-            }
-        }
-        
-        do {
-         //   news.append(newsObject)
-            try context.save()
-            
-        } catch let error as NSError {
-            
-            print(error.localizedDescription)
-        }
-        self.tableView.reloadData()
-
-    }
-    
+    } 
 }
 
 extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
@@ -133,16 +80,35 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? NewsTableViewCell else {
             return UITableViewCell()
         }
-
+        
         let item = news[indexPath.row]
-
-        cell.setUpCell(text: String(item.saveId),
-                       title: "TITLE",
-                       date: "DATE",
-                       type: "TYPE",
-                       ImageUrl: item.saveUrl ?? "")
-       
+        
+        cell.setUpCell(text: item.savedText ?? "",
+                       title: item.savedTitle ?? "",
+                       date: item.savedDate ?? "",
+                       type: item.savedSection ?? "",
+                       ImageUrl: item.savedImage ?? "")
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let item = news[indexPath.row]
+        
+        let vc = WebNewsViewController(
+            model: WebNewsModel(
+                webUrl: item.saveUrl ?? "",
+                newsId: Int(item.saveId),
+                imageUrl: item.savedImage ?? "",
+                title: item.savedTitle ?? "",
+                date: item.savedDate ?? "",
+                newsSection: item.savedSection ?? "",
+                newsText: item.savedText ?? ""
+            )
+        )
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

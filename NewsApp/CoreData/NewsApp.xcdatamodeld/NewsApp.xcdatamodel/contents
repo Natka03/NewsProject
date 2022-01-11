@@ -4,11 +4,16 @@
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="SaveNews" representedClassName="SaveNews" syncable="YES" codeGenerationType="class">
+        <attribute name="savedDate" optional="YES" attributeType="String"/>
+        <attribute name="savedImage" optional="YES" attributeType="String"/>
+        <attribute name="savedSection" optional="YES" attributeType="String"/>
+        <attribute name="savedText" optional="YES" attributeType="String"/>
+        <attribute name="savedTitle" optional="YES" attributeType="String"/>
         <attribute name="saveId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="saveUrl" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="FavoriteNews" positionX="-63" positionY="-18" width="128" height="44"/>
-        <element name="SaveNews" positionX="-54" positionY="0" width="128" height="59"/>
+        <element name="SaveNews" positionX="-54" positionY="0" width="128" height="134"/>
     </elements>
 </model>

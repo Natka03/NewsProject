@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
-import CoreData
 
 final class MostEmailedViewController: UIViewController {
     
@@ -15,7 +13,6 @@ final class MostEmailedViewController: UIViewController {
     var model: NewsModel = .init(items: [])
     var someLink: String = ""
     var id: Int = 0
-   // var news: [SaveNews] = []
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -46,7 +43,6 @@ final class MostEmailedViewController: UIViewController {
                         url: item.url,
                         id: item.id
                     )
-                   
                 }
                 self.model = NewsModel(items: items)
                 self.tableView.reloadData()
@@ -62,10 +58,6 @@ final class MostEmailedViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-    }
-    
-    private func saveNews(id: Int){
-        
     }
 }
 
@@ -110,21 +102,20 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        
-//        self.someLink = model.items[indexPath.row].url
-//        self.id = model.items[indexPath.row].id
         let item = model.items[indexPath.row]
 
-        
         let vc = WebNewsViewController(
             model: WebNewsModel(
                 webUrl: item.url,
                 newsId: item.id,
-                imageUrl: item.imageURL
+                imageUrl: item.imageURL,
+                title: item.title,
+                date: item.date,
+                newsSection: item.newsSection,
+                newsText: item.newsText
             )
         )
         vc.hidesBottomBarWhenPushed = true
        navigationController?.pushViewController(vc, animated: true)
-        
-    }
-    
+    }    
 }

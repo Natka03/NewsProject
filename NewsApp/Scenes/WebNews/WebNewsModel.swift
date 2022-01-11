@@ -12,5 +12,8 @@ struct WebNewsModel {
     let webUrl: String
     let newsId: Int
     let imageUrl: String
-   // let isFavorite: Bool
+    let title: String
+    let date: String
+    let newsSection: String
+    let newsText: String
 }

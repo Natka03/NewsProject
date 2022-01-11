@@ -7,17 +7,15 @@
 
 import UIKit
 import SwiftUI
-import Kingfisher
 
 final class MostSharedViewController: UIViewController {
 
     let networkManager = NetworkManager()
     var model: NewsModel = .init(items: [])
-    var someLink: String = ""
-    var id: Int = 0
-
     
     @IBOutlet private weak var tableView: UITableView!
+
+    //MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,21 +98,22 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
-//        self.someLink = model.items[indexPath.row].url
-//        self.id = model.items[indexPath.row].id
+      
         let item = model.items[indexPath.row]
 
         let vc = WebNewsViewController(
             model: WebNewsModel(
                 webUrl: item.url,
                 newsId: item.id,
-                imageUrl: item.imageURL
+                imageUrl: item.imageURL,
+                title: item.title,
+                date: item.date,
+                newsSection: item.newsSection,
+                newsText: item.newsText
             )
         )
         vc.hidesBottomBarWhenPushed = true
        navigationController?.pushViewController(vc, animated: true)
-        
     }
 }
 

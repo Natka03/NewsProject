@@ -186,7 +186,3 @@ final class NewsTableViewCell: UITableViewCell {
         ])
     }
 }
-
-//extension NewsTableViewCell: UITableViewCell{
-//
-//}

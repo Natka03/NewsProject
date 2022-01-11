@@ -29,6 +29,7 @@
 		B7809384276A0B0600C90B0D /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7809383276A0B0600C90B0D /* NewsModel.swift */; };
 		B7809388276A160500C90B0D /* MostSharedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7809386276A160500C90B0D /* MostSharedViewController.swift */; };
 		B7809389276A160500C90B0D /* MostSharedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7809387276A160500C90B0D /* MostSharedViewController.xib */; };
+		B780DD75278D93430010948B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B780DD74278D93430010948B /* CoreDataManager.swift */; };
 		B789001E277B027100A4ECE8 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B789001D277B027100A4ECE8 /* NetworkModel.swift */; };
 		B7A279EA2784537D009B4B77 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A279E82784537D009B4B77 /* FavoriteViewController.swift */; };
 		B7A279EB2784537D009B4B77 /* FavoriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7A279E92784537D009B4B77 /* FavoriteViewController.xib */; };
@@ -59,6 +60,7 @@
 		B7809383276A0B0600C90B0D /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		B7809386276A160500C90B0D /* MostSharedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSharedViewController.swift; sourceTree = "<group>"; };
 		B7809387276A160500C90B0D /* MostSharedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MostSharedViewController.xib; sourceTree = "<group>"; };
+		B780DD74278D93430010948B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B789001D277B027100A4ECE8 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		B7A279E82784537D009B4B77 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		B7A279E92784537D009B4B77 /* FavoriteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteViewController.xib; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				B7809369276A07AF00C90B0D /* NewsApp.xcdatamodeld */,
+				B780DD74278D93430010948B /* CoreDataManager.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				B7809365276A07AF00C90B0D /* ViewController.swift in Sources */,
 				B76145A7276CAB7000708BAD /* NewsTableViewCell.swift in Sources */,
 				B7651FCD2774A81B0087B4A8 /* NetworkManager.swift in Sources */,
+				B780DD75278D93430010948B /* CoreDataManager.swift in Sources */,
 				B7A279EA2784537D009B4B77 /* FavoriteViewController.swift in Sources */,
 				B7809361276A07AF00C90B0D /* AppDelegate.swift in Sources */,
 				B7809388276A160500C90B0D /* MostSharedViewController.swift in Sources */,
