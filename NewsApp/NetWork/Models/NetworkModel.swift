@@ -7,7 +7,6 @@
 
 import UIKit
 import Foundation
-import Alamofire
 
 struct News: Codable {
     let status: String
@@ -46,10 +45,9 @@ struct Media: Codable {
     enum CodingKeys: String, CodingKey {
         case mediaMetadata = "media-metadata"
     }
-
 }
 
-struct MediaMetadatum: Codable{
+struct MediaMetadatum: Codable {
     let urlImage: String
 
     enum CodingKeys: String, CodingKey {

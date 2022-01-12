@@ -78,3 +78,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+//общие моменты
+//qwe может еще прикрутить обработку ошибок? после индикатора
+//qwe зачем нам mainstoryboard если мы стартуем с таббара?

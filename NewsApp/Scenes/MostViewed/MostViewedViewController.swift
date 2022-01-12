@@ -9,25 +9,30 @@ import UIKit
 
 class MostViewedViewController: UIViewController {
 
+    //MARK: - Properties
+
     let networkManager = NetworkManager()
     var model: NewsModel = .init(items: [])
 
     private var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
+        tableView.register(NewsTableViewCell.self,
+                           forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .cyan
         
         return tableView
     }()
-
+    
     //MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Most Viewed"
+        
+        navigationItem.title = Constsnt.navBarTitle
         fetchData()
         createTableView()
-    }
+ }
     
     //MARK: - private methods
     
@@ -60,7 +65,6 @@ class MostViewedViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-
         view.addSubview(tableView)
     
         NSLayoutConstraint.activate([
@@ -72,6 +76,8 @@ class MostViewedViewController: UIViewController {
     }
 }
 
+//MARK: - TableViewDelegate, TableViewDataSource
+
 extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,21 +85,12 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        return headerView
+        return Constsnt.tableViewHeightForRowAt
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "NewsTableViewCell",
+            withIdentifier: String(describing: NewsTableViewCell.self),
             for: indexPath
         ) as? NewsTableViewCell else {
             return UITableViewCell()
@@ -111,7 +108,6 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
         let item = model.items[indexPath.row]
 
         let vc = WebNewsViewController(
@@ -129,3 +125,13 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
        navigationController?.pushViewController(vc, animated: true)
     }
 }
+
+// MARK: - Constants
+
+extension MostViewedViewController {
+    private enum Constsnt {
+       static let navBarTitle = "Most Viewed"
+        static let tableViewHeightForRowAt: CGFloat = 200
+    }
+}
+

@@ -9,17 +9,23 @@ import UIKit
 import SwiftUI
 
 final class MostSharedViewController: UIViewController {
+    
+    //MARK: - Properties
 
     let networkManager = NetworkManager()
     var model: NewsModel = .init(items: [])
     
+    //MARK: - IBOutlets
+
     @IBOutlet private weak var tableView: UITableView!
 
     //MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Most Shared"
+        
+        view.backgroundColor = .cyan
+        navigationItem.title = Constsnt.navBarTitle
         fetchData()
         createTableView()
     }
@@ -52,12 +58,15 @@ final class MostSharedViewController: UIViewController {
     }
 
     private func createTableView() {
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
+        tableView.register(NewsTableViewCell.self,
+                           forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
     }
 }
+
+//MARK: - TableViewDelegate, TableViewDataSource
 
 extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -66,21 +75,12 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        return headerView
+        return Constsnt.tableViewHeightForRowAt
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "NewsTableViewCell",
+            withIdentifier: String(describing: NewsTableViewCell.self),
             for: indexPath
         ) as? NewsTableViewCell else {
             return UITableViewCell()
@@ -98,7 +98,6 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      
         let item = model.items[indexPath.row]
 
         let vc = WebNewsViewController(
@@ -114,6 +113,15 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
         )
         vc.hidesBottomBarWhenPushed = true
        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - Constants
+
+extension MostSharedViewController {
+    private enum Constsnt {
+       static let navBarTitle = "Most Shared"
+        static let tableViewHeightForRowAt: CGFloat = 200
     }
 }
 

@@ -7,7 +7,6 @@
 
 import UIKit
 import Alamofire
-import Kingfisher
 
 enum EndpointUrl: String {
     case mostEmailed = "emailed/30.json"
@@ -17,14 +16,10 @@ enum EndpointUrl: String {
 
 final class NetworkManager {
     
-    static let apiKeyValue = "oVuQGkB5jcXT0Qo2MHHi9AuGQRuDB4eX"
-    static let apiKey = "api-key"
-    let url = "https://api.nytimes.com/svc/mostpopular/v2/"
-    
-    let parameters: Parameters = [apiKey: apiKeyValue]
+    private let parameters: Parameters = [Constsnt.apiKey: Constsnt.apiKeyValue]
     
     public func fetchMostNews(nesType: EndpointUrl, completion: @escaping (Result<News, AFError>) -> Void ) {
-        let url = url + nesType.rawValue
+        let url = Constsnt.url + nesType.rawValue
         AF.request(url, method: .get, parameters: parameters)
             .validate().responseDecodable (of: News.self) { responce in
                 completion(responce.result)
@@ -32,3 +27,13 @@ final class NetworkManager {
     }
 }
 
+// MARK: - Constants
+
+extension NetworkManager {
+    private enum Constsnt {
+        static let apiKeyValue = "oVuQGkB5jcXT0Qo2MHHi9AuGQRuDB4eX"
+        static let apiKey = "api-key"
+        static let url = "https://api.nytimes.com/svc/mostpopular/v2/"
+        
+    }
+}

@@ -9,10 +9,12 @@ import UIKit
 
 final class MostEmailedViewController: UIViewController {
     
-    let networkManager = NetworkManager()
-    var model: NewsModel = .init(items: [])
-    var someLink: String = ""
-    var id: Int = 0
+    //MARK: - Properties
+
+    private let networkManager = NetworkManager()
+    private var model: NewsModel = .init(items: [])
+    
+    //MARK: - IBOutlets
     
     @IBOutlet private weak var tableView: UITableView!
     
@@ -20,13 +22,14 @@ final class MostEmailedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Most Emailed"
+       
+        view.backgroundColor = .cyan
+        navigationItem.title = Constsnt.navBarTitle
         fetchData()
         createTableView()
-        
     }
     
-    //MARK: - private methods
+    //MARK: - Private methods
     
     private func fetchData() {
         networkManager.fetchMostNews(nesType: .mostEmailed) { [weak self] result in
@@ -54,12 +57,15 @@ final class MostEmailedViewController: UIViewController {
     
     private func createTableView() {
         guard let tableView = tableView else { return }
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
+        tableView.register(NewsTableViewCell.self,
+                           forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
     }
 }
+
+//MARK: - TableViewDelegate, TableViewDataSource
 
 extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -68,28 +74,18 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return Constsnt.tableViewHeightForRowAt
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        return headerView
-    }
-    
+ 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "NewsTableViewCell",
+            withIdentifier: String(describing: NewsTableViewCell.self),
             for: indexPath
         ) as? NewsTableViewCell else {
             return UITableViewCell()
         }
         
         let item = model.items[indexPath.row]
-        
         
         cell.setUpCell(text: item.newsText,
                        title: item.title,
@@ -119,3 +115,14 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
        navigationController?.pushViewController(vc, animated: true)
     }    
 }
+
+// MARK: - Constants
+
+extension MostEmailedViewController {
+    private enum Constsnt {
+       static let navBarTitle = "Most Emailed"
+        static let tableViewHeightForRowAt: CGFloat = 200
+    }
+}
+
+

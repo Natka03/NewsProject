@@ -17,7 +17,7 @@ final class NewsTableViewCell: UITableViewCell {
         view.backgroundColor = .lightGray
         view.layer.borderColor = UIColor.black.cgColor
         view.layer.borderWidth = 1
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = Constant.cornerRadius
         view.clipsToBounds = true
         
         return view
@@ -26,7 +26,7 @@ final class NewsTableViewCell: UITableViewCell {
     private var dateView: UIView = {
         let date = UIView()
         date.backgroundColor = .yellow
-        date.layer.cornerRadius = 5
+        date.layer.cornerRadius = Constant.cornerRadius
         date.layer.maskedCorners = .layerMinXMaxYCorner
         date.translatesAutoresizingMaskIntoConstraints = false
         
@@ -37,7 +37,7 @@ final class NewsTableViewCell: UITableViewCell {
         let type = UIView()
         type.backgroundColor = .orange
         type.translatesAutoresizingMaskIntoConstraints = false
-        type.layer.cornerRadius = 5
+        type.layer.cornerRadius = Constant.cornerRadius
         type.layer.maskedCorners = .layerMaxXMaxYCorner
         
         return type
@@ -45,7 +45,7 @@ final class NewsTableViewCell: UITableViewCell {
     
     private var newsTitle: UILabel = {
         let label = UILabel()
-        label.textColor = .systemRed
+        label.textColor = .red
         label.font = .systemFont(ofSize: 17)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -94,8 +94,8 @@ final class NewsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        contentView.backgroundColor = .cyan
         contentView.addSubview(containerView)
-        
         containerView.addSubview(dateView)
         containerView.addSubview(typeView)
         containerView.addSubview(typeLabel)
@@ -112,12 +112,22 @@ final class NewsTableViewCell: UITableViewCell {
     }
     
     public func setUpCell(text: String, title: String, date: String, type: String, ImageUrl: String) {
+        setUpImage(ImageUrl: ImageUrl)
+        newsLabel.text = text
+        newsTitle.text = title
+        dateLabel.text = date
+        typeLabel.text = type
+    }
+    
+    private func setUpImage(ImageUrl: String) {
         let url = URL(string: ImageUrl) ?? URL(fileURLWithPath: "")
         let image = UIImageView()
-        let imagePlaceholder: UIImage = UIImage(named: "News")!
+        let imagePlaceholder: UIImage = UIImage(named: "News") ?? UIImage()
+
         image.kf.setImage(
             with: url,
-            placeholder: imagePlaceholder )
+            placeholder: imagePlaceholder)
+        
         let resource = ImageResource(downloadURL: url)
                 
         KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
@@ -129,20 +139,25 @@ final class NewsTableViewCell: UITableViewCell {
                 print("Error: \(error)")
             }
         }
-        newsLabel.text = text
-        newsTitle.text = title
-        dateLabel.text = date
-        typeLabel.text = type
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                               constant: 8.0),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                  constant: -8.0),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: Constant.containerInsets.top
+            ),
+            containerView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: Constant.containerInsets.bottom
+            ),
+            containerView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: Constant.containerInsets.left
+            ),
+            containerView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: Constant.containerInsets.right),
             
             typeLabel.leftAnchor.constraint(equalTo: typeView.leftAnchor),
             typeLabel.rightAnchor.constraint(equalTo: typeView.rightAnchor),
@@ -156,33 +171,60 @@ final class NewsTableViewCell: UITableViewCell {
             
             newsImage.leftAnchor.constraint(equalTo: containerView.leftAnchor),
             newsImage.topAnchor.constraint(equalTo: containerView.topAnchor),
-            newsImage.widthAnchor.constraint(equalToConstant: 150),
+            newsImage.widthAnchor.constraint(equalToConstant: Constant.newsImageWidth),
             newsImage.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
-            newsTitle.leftAnchor.constraint(equalTo: newsImage.rightAnchor,
-                                           constant: 5),
-            newsTitle.rightAnchor.constraint(equalTo: containerView.rightAnchor,
-                                            constant: -5),
+            newsTitle.leftAnchor.constraint(
+                equalTo: newsImage.rightAnchor,
+                constant: Constant.newsTitleInsets.left
+            ),
+            newsTitle.rightAnchor.constraint(
+                equalTo: containerView.rightAnchor,
+                constant: Constant.newsTitleInsets.right
+            ),
             newsTitle.topAnchor.constraint(equalTo: typeView.bottomAnchor),
-            newsTitle.heightAnchor.constraint(equalToConstant: 35),
+            newsTitle.heightAnchor.constraint(equalToConstant: Constant.newsTitleHeight),
             
-            newsLabel.leftAnchor.constraint(equalTo: newsImage.rightAnchor,
-                                            constant: 16),
+            newsLabel.leftAnchor.constraint(
+                equalTo: newsImage.rightAnchor,
+                constant: Constant.newsLabelInsets.left
+            ),
             newsLabel.topAnchor.constraint(equalTo: newsTitle.bottomAnchor),
-            newsLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,
-                                              constant: -16),
-            newsLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor,
-                                             constant: -16),
+            newsLabel.bottomAnchor.constraint(
+                equalTo: containerView.bottomAnchor,
+                constant: Constant.newsLabelInsets.bottom
+            ),
+            newsLabel.rightAnchor.constraint(
+                equalTo: containerView.rightAnchor,
+                constant: Constant.newsLabelInsets.right
+            ),
             
             typeView.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
             typeView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            typeView.widthAnchor.constraint(equalToConstant: 100),
-            typeView.heightAnchor.constraint(equalToConstant: 25),
+            typeView.widthAnchor.constraint(equalToConstant: Constant.typeViewWidth),
+            typeView.heightAnchor.constraint(equalToConstant: Constant.typeViewHeight),
             
             dateView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
             dateView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            dateView.widthAnchor.constraint(equalToConstant: 75),
-            dateView.heightAnchor.constraint(equalToConstant: 25)
+            dateView.widthAnchor.constraint(equalToConstant: Constant.dateViewWidth),
+            dateView.heightAnchor.constraint(equalToConstant: Constant.dateVieweHeight)
         ])
+    }
+}
+
+// MARK: - Constants
+
+extension NewsTableViewCell {
+    private enum Constant {
+        static let containerInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: -8.0, right: -8.0)
+        static let newsLabelInsets = UIEdgeInsets(top: .zero, left: 16, bottom: -16, right: -16)
+        static let newsTitleInsets = UIEdgeInsets(top: .zero, left: 5, bottom: .zero, right: -5)
+        static let newsTitleHeight: CGFloat = 35
+        static let newsImageWidth: CGFloat = 150
+        static let typeViewWidth: CGFloat = 100
+        static let typeViewHeight: CGFloat = 25
+        static let dateViewWidth: CGFloat = 75
+        static let dateVieweHeight: CGFloat = 25
+        static let cornerRadius: CGFloat = 8
     }
 }

@@ -8,16 +8,16 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    
-    let typeText = UIView()
-    var modelCell: [NewsTableViewCellModel] = []
+
+    private let typeText = UIView()
+    private var modelCell: [NewsTableViewCellModel] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTabBar()
     }
     
-    func setUpTabBar() {
+    private func setUpTabBar() {
         let emailedVC = createNavigation(
             vc: MostEmailedViewController(),
             itemName: "Most Emailed",
@@ -37,12 +37,11 @@ final class TabBarController: UITabBarController {
         viewControllers = [emailedVC, sharedVC, viewedVC, favoriteVC]
     }
     
-    func createNavigation(
+    private func createNavigation(
         vc: UIViewController,
         itemName: String,
         itemImage: String
     ) -> UINavigationController {
-        
         let item = UITabBarItem(
             title: itemName,
             image: UIImage(systemName: itemImage),

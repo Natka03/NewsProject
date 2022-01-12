@@ -169,7 +169,6 @@
 		B7809379276A082700C90B0D /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				B7809383276A0B0600C90B0D /* NewsModel.swift */,
 				B780937C276A0A9900C90B0D /* TabBarController.swift */,
 				B77F85C72785DD2A00F65E05 /* WebNews */,
 				B7DCB769276B269B0066E70E /* Common */,
@@ -237,6 +236,7 @@
 		B7DCB769276B269B0066E70E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B7809383276A0B0600C90B0D /* NewsModel.swift */,
 				B7DCB76A276B26AF0066E70E /* NewsCell */,
 			);
 			path = Common;

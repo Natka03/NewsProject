@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+//qwe нужен ли нам этот файл?
 class ViewController: UIViewController {
 
     override func viewDidLoad() {

@@ -16,7 +16,6 @@ class WebNewsViewController: UIViewController {
     private let model: WebNewsModel
 
     init(model: WebNewsModel) {
-        
         self.coreDataManager = CoreDataManager()
         self.model = model
         
@@ -58,10 +57,7 @@ class WebNewsViewController: UIViewController {
                                       handler: { [weak self] action in
             guard let self = self else { return }
             self.coreDataManager.deleteNews(id: self.model.newsId)
-
-            //weak unowned strong self
-            //unwrap
-            
+            self.navigationItem.rightBarButtonItem?.tintColor = .black
         })
         )
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
@@ -91,10 +87,8 @@ class WebNewsViewController: UIViewController {
             massageDelete()
         } else {
             coreDataManager.saveNews(model: model)
+            navigationItem.rightBarButtonItem?.tintColor = .red
         }
-        
-        navigationItem.rightBarButtonItem?.tintColor = isFavorite ? .black : .red
-
     }
     
     //MARK: - Actions

@@ -9,31 +9,38 @@ import UIKit
 
 class FavoriteViewController: UIViewController {
     
+    //MARK: - Properties
+
     var news: [SaveNews] = []
     private let coreDataManager = CoreDataManager()
     
     private var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
+        tableView.register(NewsTableViewCell.self,
+                           forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
+        tableView.backgroundColor = .cyan
+
         return tableView
     }()
     
     //MARK: - LifeCycle
-
+  
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .cyan
+        navigationItem.title = Constsnt.navBarTitle
+        createTableView()
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        news = coreDataManager.fetchReguest(model: news)
+        news = coreDataManager.fetchReguestSaveNews(model: news)
         
         self.tableView.reloadData()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.title = "Favorite"
-        createTableView()
     }
     
     //MARK: - private methods
@@ -54,6 +61,8 @@ class FavoriteViewController: UIViewController {
     } 
 }
 
+//MARK: - TableViewDelegate, TableViewDataSource
+
 extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,21 +70,12 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return Constsnt.tableViewHeightForRowAt
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        return headerView
-    }
-    
+   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "NewsTableViewCell",
+            withIdentifier: String(describing: NewsTableViewCell.self),
             for: indexPath
         ) as? NewsTableViewCell else {
             return UITableViewCell()
@@ -93,7 +93,6 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let item = news[indexPath.row]
         
         let vc = WebNewsViewController(
@@ -109,6 +108,15 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         )
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - Constants
+
+extension FavoriteViewController {
+    private enum Constsnt {
+       static let navBarTitle = "Favorite"
+        static let tableViewHeightForRowAt: CGFloat = 200
     }
 }
 

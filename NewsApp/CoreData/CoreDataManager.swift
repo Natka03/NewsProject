@@ -18,7 +18,6 @@ final class CoreDataManager {
     }
     
     public func isFavorite(id: Int) -> Bool {
-        
         var isFavorite: Bool = false
         
         do {
@@ -35,12 +34,11 @@ final class CoreDataManager {
             isFavorite = false
             print ("fetch task failed", error)
         }
-        //может ли функция выдать ретерн раньше ду кетч блока?
+        
         return isFavorite
     }
     
     public func saveNews(model: WebNewsModel) {
-        
         guard let entity = NSEntityDescription.entity(forEntityName: "SaveNews", in: context) else { return }
         
         let newsObject = SaveNews(entity: entity, insertInto: context)
@@ -55,49 +53,39 @@ final class CoreDataManager {
         
         do {
             try context.save()
-            
         } catch let error as NSError {
-            
             print(error.localizedDescription)
         }
     }
     
     public func deleteNews(id: Int) {
-        
         let fetchRequest : NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
 
         fetchRequest.predicate = NSPredicate(format: "saveId == %ld", id)
 
         do {
-            
             let fetchedResults = try context.fetch(fetchRequest)
             
             if let _ = fetchedResults.first {
                 context.delete(fetchedResults[0])
             }
-        }catch let error as NSError {
-            
+        } catch let error as NSError {
             print(error.localizedDescription)
         }
        
         do {
             try context.save()
-            
         } catch let error as NSError {
-            
             print(error.localizedDescription)
         }
     }
-    
-    public func fetchReguest(model: [SaveNews] ) -> [SaveNews] {
-        
+
+    public func fetchReguestSaveNews(model: [SaveNews] ) -> [SaveNews] {
         let fetchReguest: NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
         var modelNews = model
         do {
             modelNews = try context.fetch(fetchReguest)
-            
         } catch let error as NSError {
-            
             print(error.localizedDescription)
         }
         return modelNews
