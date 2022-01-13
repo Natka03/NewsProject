@@ -11,7 +11,6 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         return true
@@ -77,7 +76,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-
-//общие моменты
-//qwe может еще прикрутить обработку ошибок? после индикатора
-//qwe зачем нам mainstoryboard если мы стартуем с таббара?

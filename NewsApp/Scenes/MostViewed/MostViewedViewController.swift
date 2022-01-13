@@ -8,23 +8,23 @@
 import UIKit
 
 class MostViewedViewController: UIViewController {
-
+    
     //MARK: - Properties
-
-    let networkManager = NetworkManager()
-    var model: NewsModel = .init(items: [])
-
+    
+    private let networkManager = NetworkManager()
+    private var model: NewsModel = .init(items: [])
+    
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsTableViewCell.self,
                            forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
-
+        
         return tableView
     }()
     
-    var activityIndicator: UIActivityIndicatorView = {
+    private var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.color = .blue
@@ -34,24 +34,16 @@ class MostViewedViewController: UIViewController {
     }()
     
     //MARK: - LifeCycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Constsnt.navBarTitle
+        navigationItem.title = Constant.navBarTitle
         fetchData()
         createTableView()
         createActivityIndicator()
- }
+    }
     
-    //MARK: - private methods
-    
-    func createActivityIndicator() {
-        view.addSubview(activityIndicator)
-
-        NSLayoutConstraint.activate([
-          activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-          activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])    }
+    //MARK: - Private methods
     
     private func fetchData() {
         activityIndicator.startAnimating()
@@ -70,28 +62,47 @@ class MostViewedViewController: UIViewController {
                         id: item.id
                     )
                 }
-                
                 self.model = NewsModel(items: items)
                 self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             case .failure(let error):
+                self.showErrorAlertWith(error.localizedDescription)
                 self.activityIndicator.stopAnimating()
                 print(error)
             }
         }
     }
-
+    
     private func createTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
-    
+        
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func createActivityIndicator() {
+        view.addSubview(activityIndicator)
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    private func showErrorAlertWith(_ message: String) {
+        let alert = UIAlertController(title: "Ups.. Error!",
+                                      message: message,
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -104,7 +115,7 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constsnt.tableViewHeightForRowAt
+        return Constant.tableViewHeightForRowAt
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -128,7 +139,7 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = model.items[indexPath.row]
-
+        
         let vc = WebNewsViewController(
             model: WebNewsModel(
                 webUrl: item.url,
@@ -141,15 +152,15 @@ extension MostViewedViewController: UITableViewDelegate, UITableViewDataSource {
             )
         )
         vc.hidesBottomBarWhenPushed = true
-       navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 // MARK: - Constants
 
 extension MostViewedViewController {
-    private enum Constsnt {
-       static let navBarTitle = "Most Viewed"
+    private enum Constant {
+        static let navBarTitle = "Most Viewed"
         static let tableViewHeightForRowAt: CGFloat = 200
     }
 }

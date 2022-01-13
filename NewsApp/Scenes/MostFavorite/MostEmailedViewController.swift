@@ -10,11 +10,11 @@ import UIKit
 final class MostEmailedViewController: UIViewController {
     
     //MARK: - Properties
-
+    
     private let networkManager = NetworkManager()
     private var model: NewsModel = .init(items: [])
     
-    var activityIndicator: UIActivityIndicatorView = {
+    private var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.color = .blue
@@ -31,8 +31,8 @@ final class MostEmailedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        navigationItem.title = Constsnt.navBarTitle
+        
+        navigationItem.title = Constant.navBarTitle
         fetchData()
         createTableView()
         createActivityIndicator()
@@ -57,12 +57,13 @@ final class MostEmailedViewController: UIViewController {
                         id: item.id
                     )
                 }
+                
                 self.model = NewsModel(items: items)
                 self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             case .failure(let error):
                 self.activityIndicator.stopAnimating()
-                print(error)
+                self.showErrorAlertWith(error.localizedDescription)
             }
         }
     }
@@ -73,15 +74,27 @@ final class MostEmailedViewController: UIViewController {
                            forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .none //задать в xib
     }
-    func createActivityIndicator() {
+    
+    private func createActivityIndicator() {
         view.addSubview(activityIndicator)
-
+        
         NSLayoutConstraint.activate([
-          activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-          activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])    }
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    private func showErrorAlertWith(_ message: String) { //может стоит вынести? подумать над наследованием
+        let alert = UIAlertController(title: "Ups.. Error!",
+                                      message: message,
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 //MARK: - TableViewDelegate, TableViewDataSource
@@ -93,9 +106,9 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constsnt.tableViewHeightForRowAt
+        return Constant.tableViewHeightForRowAt
     }
- 
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: NewsTableViewCell.self),
@@ -111,14 +124,14 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
                        date: item.date,
                        type: item.newsSection,
                        ImageUrl: item.imageURL)
-
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
+        
         let item = model.items[indexPath.row]
-
+        
         let vc = WebNewsViewController(
             model: WebNewsModel(
                 webUrl: item.url,
@@ -131,15 +144,15 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
             )
         )
         vc.hidesBottomBarWhenPushed = true
-       navigationController?.pushViewController(vc, animated: true)
-    }    
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - Constants
 
 extension MostEmailedViewController {
-    private enum Constsnt {
-       static let navBarTitle = "Most Emailed"
+    private enum Constant {
+        static let navBarTitle = "Most Emailed"
         static let tableViewHeightForRowAt: CGFloat = 200
     }
 }

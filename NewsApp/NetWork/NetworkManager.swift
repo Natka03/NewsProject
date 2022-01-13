@@ -16,10 +16,10 @@ enum EndpointUrl: String {
 
 final class NetworkManager {
     
-    private let parameters: Parameters = [Constsnt.apiKey: Constsnt.apiKeyValue]
+    private let parameters: Parameters = [Constant.apiKey: Constant.apiKeyValue]
     
     public func fetchMostNews(nesType: EndpointUrl, completion: @escaping (Result<News, AFError>) -> Void ) {
-        let url = Constsnt.url + nesType.rawValue
+        let url = Constant.url + nesType.rawValue
         AF.request(url, method: .get, parameters: parameters)
             .validate().responseDecodable (of: News.self) { responce in
                 completion(responce.result)
@@ -30,10 +30,9 @@ final class NetworkManager {
 // MARK: - Constants
 
 extension NetworkManager {
-    private enum Constsnt {
+    private enum Constant {
         static let apiKeyValue = "oVuQGkB5jcXT0Qo2MHHi9AuGQRuDB4eX"
         static let apiKey = "api-key"
         static let url = "https://api.nytimes.com/svc/mostpopular/v2/"
-        
     }
 }

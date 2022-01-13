@@ -14,7 +14,8 @@ class WebNewsViewController: UIViewController {
     
     private let webView = WKWebView()
     private let model: WebNewsModel
-
+    
+    //MARK: - Initциализешн
     init(model: WebNewsModel) {
         self.coreDataManager = CoreDataManager()
         self.model = model
@@ -40,8 +41,8 @@ class WebNewsViewController: UIViewController {
         setUpButtonFavorite()
     }
     
-    //MARK: - private methods
-
+    //MARK: - Private methods
+    
     private func webNews() {
         guard let url = URL(string: model.webUrl) else { return }
         webView.load(URLRequest(url: url))
@@ -51,17 +52,20 @@ class WebNewsViewController: UIViewController {
         let alert = UIAlertController(title: "Delete this article from saved",
                                       message: "",
                                       preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: UIAlertAction.Style.destructive,
-                                      handler: { [weak self] action in
-            guard let self = self else { return }
-            self.coreDataManager.deleteNews(id: self.model.newsId)
-            self.navigationItem.rightBarButtonItem?.tintColor = .black
-        })
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: UIAlertAction.Style.destructive,
+                handler: { [weak self] action in
+                    guard let self = self else { return }
+                    self.coreDataManager.deleteNewsWith(self.model.newsId)
+                    self.navigationItem.rightBarButtonItem?.tintColor = .black
+                }
+            )
         )
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
-       
+        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -74,7 +78,7 @@ class WebNewsViewController: UIViewController {
             target: self,
             action: #selector(didTapFavoriteButton)
         )
-       
+        
         favoriteButton.tintColor = isFavorite ? .red : .black
         
         navigationItem.rightBarButtonItem = favoriteButton

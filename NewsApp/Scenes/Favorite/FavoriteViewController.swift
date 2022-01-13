@@ -7,11 +7,11 @@
 
 import UIKit
 
-class FavoriteViewController: UIViewController {
+final class FavoriteViewController: UIViewController {
     
     //MARK: - Properties
 
-    var news: [SaveNews] = []
+    private var news: [SaveNews] = []
     private let coreDataManager = CoreDataManager()
     
     private var tableView: UITableView = {
@@ -19,6 +19,7 @@ class FavoriteViewController: UIViewController {
         tableView.register(NewsTableViewCell.self,
                            forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
 
         return tableView
     }()
@@ -28,14 +29,14 @@ class FavoriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = Constsnt.navBarTitle
+        navigationItem.title = Constant.navBarTitle
         createTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        news = coreDataManager.fetchReguestSaveNews(model: news)
+        news = coreDataManager.fetchSavedNews(model: news)
         
         self.tableView.reloadData()
     }
@@ -45,7 +46,6 @@ class FavoriteViewController: UIViewController {
     private func createTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none
         
         view.addSubview(tableView)
         
@@ -67,7 +67,7 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constsnt.tableViewHeightForRowAt
+        return Constant.tableViewHeightForRowAt
     }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,7 +111,7 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - Constants
 
 extension FavoriteViewController {
-    private enum Constsnt {
+    private enum Constant {
        static let navBarTitle = "Favorite"
         static let tableViewHeightForRowAt: CGFloat = 200
     }

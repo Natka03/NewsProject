@@ -58,7 +58,7 @@ final class CoreDataManager {
         }
     }
     
-    public func deleteNews(id: Int) {
+    public func deleteNewsWith(_ id: Int) {
         let fetchRequest : NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
 
         fetchRequest.predicate = NSPredicate(format: "saveId == %ld", id)
@@ -80,7 +80,7 @@ final class CoreDataManager {
         }
     }
 
-    public func fetchReguestSaveNews(model: [SaveNews] ) -> [SaveNews] {
+    public func fetchSavedNews(model: [SaveNews] ) -> [SaveNews] {
         let fetchReguest: NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
         var modelNews = model
         do {

@@ -6,16 +6,15 @@
 //
 
 import UIKit
-import SwiftUI
 
 final class MostSharedViewController: UIViewController {
     
     //MARK: - Properties
-
-    let networkManager = NetworkManager()
-    var model: NewsModel = .init(items: [])
     
-    var activityIndicator: UIActivityIndicatorView = {
+    private let networkManager = NetworkManager()
+    private var model: NewsModel = .init(items: [])
+    
+    private var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.color = .blue
@@ -25,21 +24,21 @@ final class MostSharedViewController: UIViewController {
     }()
     
     //MARK: - IBOutlets
-
+    
     @IBOutlet private weak var tableView: UITableView!
-
+    
     //MARK: - LifeCycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = Constsnt.navBarTitle
+        navigationItem.title = Constant.navBarTitle
         fetchData()
         createTableView()
         createActivityIndicator()
     }
     
-    //MARK: - private methods
+    //MARK: - Private methods
     
     private func fetchData() {
         activityIndicator.startAnimating()
@@ -58,17 +57,17 @@ final class MostSharedViewController: UIViewController {
                         id: item.id
                     )
                 }
-                
                 self.model = NewsModel(items: items)
                 self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             case .failure(let error):
+                self.showErrorAlertWith(error.localizedDescription)
                 self.activityIndicator.stopAnimating()
                 print(error)
             }
         }
     }
-
+    
     private func createTableView() {
         tableView.register(NewsTableViewCell.self,
                            forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
@@ -77,13 +76,24 @@ final class MostSharedViewController: UIViewController {
         tableView.separatorStyle = .none
     }
     
-    func createActivityIndicator() {
+    private func createActivityIndicator() {
         view.addSubview(activityIndicator)
-
+        
         NSLayoutConstraint.activate([
-          activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-          activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])    }
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    private func showErrorAlertWith(_ message: String) {
+        let alert = UIAlertController(title: "Ups.. Error!",
+                                      message: message,
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 //MARK: - TableViewDelegate, TableViewDataSource
@@ -95,7 +105,7 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constsnt.tableViewHeightForRowAt
+        return Constant.tableViewHeightForRowAt
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,7 +117,7 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let item = model.items[indexPath.row]
-       
+        
         cell.setUpCell(text: item.newsText,
                        title: item.title,
                        date: item.date,
@@ -119,7 +129,7 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = model.items[indexPath.row]
-
+        
         let vc = WebNewsViewController(
             model: WebNewsModel(
                 webUrl: item.url,
@@ -132,15 +142,15 @@ extension MostSharedViewController: UITableViewDelegate, UITableViewDataSource {
             )
         )
         vc.hidesBottomBarWhenPushed = true
-       navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 // MARK: - Constants
 
 extension MostSharedViewController {
-    private enum Constsnt {
-       static let navBarTitle = "Most Shared"
+    private enum Constant {
+        static let navBarTitle = "Most Shared"
         static let tableViewHeightForRowAt: CGFloat = 200
     }
 }

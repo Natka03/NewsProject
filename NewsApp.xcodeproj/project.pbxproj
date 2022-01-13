@@ -18,8 +18,6 @@
 		B77F85C92785DD8900F65E05 /* WebNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77F85C82785DD8900F65E05 /* WebNewsViewController.swift */; };
 		B7809361276A07AF00C90B0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7809360276A07AF00C90B0D /* AppDelegate.swift */; };
 		B7809363276A07AF00C90B0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7809362276A07AF00C90B0D /* SceneDelegate.swift */; };
-		B7809365276A07AF00C90B0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7809364276A07AF00C90B0D /* ViewController.swift */; };
-		B7809368276A07AF00C90B0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7809366276A07AF00C90B0D /* Main.storyboard */; };
 		B780936B276A07AF00C90B0D /* NewsApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B7809369276A07AF00C90B0D /* NewsApp.xcdatamodeld */; };
 		B780936D276A07B100C90B0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B780936C276A07B100C90B0D /* Assets.xcassets */; };
 		B7809370276A07B100C90B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B780936E276A07B100C90B0D /* LaunchScreen.storyboard */; };
@@ -48,8 +46,6 @@
 		B780935D276A07AF00C90B0D /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7809360276A07AF00C90B0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B7809362276A07AF00C90B0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B7809364276A07AF00C90B0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B7809367276A07AF00C90B0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B780936A276A07AF00C90B0D /* NewsApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NewsApp.xcdatamodel; sourceTree = "<group>"; };
 		B780936C276A07B100C90B0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B780936F276A07B100C90B0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -140,10 +136,7 @@
 				B7809377276A07F300C90B0D /* CoreData */,
 				B7809378276A080600C90B0D /* NetWork */,
 				B7809379276A082700C90B0D /* Scenes */,
-				B780937A276A083D00C90B0D /* Helper */,
 				B780937B276A084B00C90B0D /* Resources */,
-				B7809364276A07AF00C90B0D /* ViewController.swift */,
-				B7809366276A07AF00C90B0D /* Main.storyboard */,
 			);
 			path = NewsApp;
 			sourceTree = "<group>";
@@ -178,13 +171,6 @@
 				B7A279E3278452A1009B4B77 /* Favorite */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		B780937A276A083D00C90B0D /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Helper;
 			sourceTree = "<group>";
 		};
 		B780937B276A084B00C90B0D /* Resources */ = {
@@ -319,7 +305,6 @@
 				B76145A8276CAB7000708BAD /* NewsTableViewCell.xib in Resources */,
 				B7809382276A0AD700C90B0D /* MostEmailedViewController.xib in Resources */,
 				B780936D276A07B100C90B0D /* Assets.xcassets in Resources */,
-				B7809368276A07AF00C90B0D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +358,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B76145AA2770C00200708BAD /* NewsTableViewCellModel.swift in Sources */,
-				B7809365276A07AF00C90B0D /* ViewController.swift in Sources */,
 				B76145A7276CAB7000708BAD /* NewsTableViewCell.swift in Sources */,
 				B7651FCD2774A81B0087B4A8 /* NetworkManager.swift in Sources */,
 				B780DD75278D93430010948B /* CoreDataManager.swift in Sources */,
@@ -395,14 +379,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B7809366276A07AF00C90B0D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B7809367276A07AF00C90B0D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B780936E276A07B100C90B0D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

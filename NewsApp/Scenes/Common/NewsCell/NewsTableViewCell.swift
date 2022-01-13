@@ -50,7 +50,7 @@ final class NewsTableViewCell: UITableViewCell {
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-
+        
         return label
     }()
     
@@ -94,7 +94,6 @@ final class NewsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .cyan
         contentView.addSubview(containerView)
         containerView.addSubview(dateView)
         containerView.addSubview(typeView)
@@ -122,17 +121,21 @@ final class NewsTableViewCell: UITableViewCell {
     private func setUpImage(ImageUrl: String) {
         let url = URL(string: ImageUrl) ?? URL(fileURLWithPath: "")
         let image = UIImageView()
-        let imagePlaceholder: UIImage = UIImage(named: "News") ?? UIImage()
+        let imagePlaceholder: UIImage = UIImage(named: "LoadingImage") ?? UIImage()
 
         image.kf.setImage(
             with: url,
             placeholder: imagePlaceholder)
+        guard let _ = image.image else { return }
+
+        self.newsImage.image = image.image
         
         let resource = ImageResource(downloadURL: url)
-                
+
         KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
             switch result {
             case .success(let value):
+               
                 self.newsImage.image = value.image
                 print("Image: \(value.image). Got from: \(value.cacheType)")
             case .failure(let error):
