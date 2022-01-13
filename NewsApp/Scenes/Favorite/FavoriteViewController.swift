@@ -19,7 +19,6 @@ class FavoriteViewController: UIViewController {
         tableView.register(NewsTableViewCell.self,
                            forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .cyan
 
         return tableView
     }()
@@ -29,10 +28,8 @@ class FavoriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .cyan
         navigationItem.title = Constsnt.navBarTitle
         createTableView()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

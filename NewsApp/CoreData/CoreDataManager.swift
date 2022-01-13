@@ -10,7 +10,7 @@ import CoreData
 
 final class CoreDataManager {
     
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate //подумать над форс анврапом
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate 
     private let context: NSManagedObjectContext
     
     init() {

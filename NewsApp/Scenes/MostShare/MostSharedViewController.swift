@@ -15,6 +15,15 @@ final class MostSharedViewController: UIViewController {
     let networkManager = NetworkManager()
     var model: NewsModel = .init(items: [])
     
+    var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.color = .blue
+        activityIndicator.hidesWhenStopped = true
+        
+        return activityIndicator
+    }()
+    
     //MARK: - IBOutlets
 
     @IBOutlet private weak var tableView: UITableView!
@@ -24,15 +33,16 @@ final class MostSharedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .cyan
         navigationItem.title = Constsnt.navBarTitle
         fetchData()
         createTableView()
+        createActivityIndicator()
     }
     
     //MARK: - private methods
     
     private func fetchData() {
+        activityIndicator.startAnimating()
         networkManager.fetchMostNews(nesType: .mostShared) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -50,8 +60,10 @@ final class MostSharedViewController: UIViewController {
                 }
                 
                 self.model = NewsModel(items: items)
+                self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             case .failure(let error):
+                self.activityIndicator.stopAnimating()
                 print(error)
             }
         }
@@ -64,6 +76,14 @@ final class MostSharedViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
     }
+    
+    func createActivityIndicator() {
+        view.addSubview(activityIndicator)
+
+        NSLayoutConstraint.activate([
+          activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+          activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])    }
 }
 
 //MARK: - TableViewDelegate, TableViewDataSource

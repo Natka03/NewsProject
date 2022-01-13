@@ -14,6 +14,15 @@ final class MostEmailedViewController: UIViewController {
     private let networkManager = NetworkManager()
     private var model: NewsModel = .init(items: [])
     
+    var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.color = .blue
+        activityIndicator.hidesWhenStopped = true
+        
+        return activityIndicator
+    }()
+    
     //MARK: - IBOutlets
     
     @IBOutlet private weak var tableView: UITableView!
@@ -23,15 +32,16 @@ final class MostEmailedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        view.backgroundColor = .cyan
         navigationItem.title = Constsnt.navBarTitle
         fetchData()
         createTableView()
+        createActivityIndicator()
     }
     
     //MARK: - Private methods
     
     private func fetchData() {
+        activityIndicator.startAnimating()
         networkManager.fetchMostNews(nesType: .mostEmailed) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -48,8 +58,10 @@ final class MostEmailedViewController: UIViewController {
                     )
                 }
                 self.model = NewsModel(items: items)
+                self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             case .failure(let error):
+                self.activityIndicator.stopAnimating()
                 print(error)
             }
         }
@@ -63,6 +75,13 @@ final class MostEmailedViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
     }
+    func createActivityIndicator() {
+        view.addSubview(activityIndicator)
+
+        NSLayoutConstraint.activate([
+          activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+          activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])    }
 }
 
 //MARK: - TableViewDelegate, TableViewDataSource

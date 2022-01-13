@@ -19,24 +19,42 @@ class MostViewedViewController: UIViewController {
         tableView.register(NewsTableViewCell.self,
                            forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .cyan
-        
+        tableView.separatorStyle = .none
+
         return tableView
+    }()
+    
+    var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.color = .blue
+        activityIndicator.hidesWhenStopped = true
+        
+        return activityIndicator
     }()
     
     //MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.title = Constsnt.navBarTitle
         fetchData()
         createTableView()
+        createActivityIndicator()
  }
     
     //MARK: - private methods
     
+    func createActivityIndicator() {
+        view.addSubview(activityIndicator)
+
+        NSLayoutConstraint.activate([
+          activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+          activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])    }
+    
     private func fetchData() {
+        activityIndicator.startAnimating()
         networkManager.fetchMostNews(nesType: .mostVived) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -54,8 +72,10 @@ class MostViewedViewController: UIViewController {
                 }
                 
                 self.model = NewsModel(items: items)
+                self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             case .failure(let error):
+                self.activityIndicator.stopAnimating()
                 print(error)
             }
         }
@@ -64,7 +84,6 @@ class MostViewedViewController: UIViewController {
     private func createTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none
         view.addSubview(tableView)
     
         NSLayoutConstraint.activate([

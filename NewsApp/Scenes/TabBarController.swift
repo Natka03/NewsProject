@@ -17,7 +17,7 @@ final class TabBarController: UITabBarController {
         setUpTabBar()
     }
     
-    private func setUpTabBar() {
+    private func setUpTabBar() {        
         let emailedVC = createNavigation(
             vc: MostEmailedViewController(),
             itemName: "Most Emailed",

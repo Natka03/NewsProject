@@ -201,13 +201,13 @@ final class NewsTableViewCell: UITableViewCell {
             
             typeView.leftAnchor.constraint(equalTo: newsImage.rightAnchor),
             typeView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            typeView.widthAnchor.constraint(equalToConstant: Constant.typeViewWidth),
-            typeView.heightAnchor.constraint(equalToConstant: Constant.typeViewHeight),
+            typeView.widthAnchor.constraint(equalToConstant: Constant.typeViewSize.width),
+            typeView.heightAnchor.constraint(equalToConstant: Constant.typeViewSize.height),
             
             dateView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
             dateView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            dateView.widthAnchor.constraint(equalToConstant: Constant.dateViewWidth),
-            dateView.heightAnchor.constraint(equalToConstant: Constant.dateVieweHeight)
+            dateView.widthAnchor.constraint(equalToConstant: Constant.dateViewSize.width),
+            dateView.heightAnchor.constraint(equalToConstant: Constant.dateViewSize.height)
         ])
     }
 }
@@ -221,10 +221,8 @@ extension NewsTableViewCell {
         static let newsTitleInsets = UIEdgeInsets(top: .zero, left: 5, bottom: .zero, right: -5)
         static let newsTitleHeight: CGFloat = 35
         static let newsImageWidth: CGFloat = 150
-        static let typeViewWidth: CGFloat = 100
-        static let typeViewHeight: CGFloat = 25
-        static let dateViewWidth: CGFloat = 75
-        static let dateVieweHeight: CGFloat = 25
+        static let typeViewSize = CGSize(width: 100, height: 25)
+        static let dateViewSize = CGSize(width: 75.0, height: 25.0)
         static let cornerRadius: CGFloat = 8
     }
 }
