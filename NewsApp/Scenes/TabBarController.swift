@@ -11,11 +11,15 @@ final class TabBarController: UITabBarController {
 
     private var modelCell: [NewsTableViewCellModel] = []
 
+    //MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTabBar()
     }
     
+    //MARK: - Private methods
+
     private func setUpTabBar() {
         let emailedVC = createNavigation(
             vc: MostEmailedViewController(),

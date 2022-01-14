@@ -10,6 +10,8 @@ import Kingfisher
 
 final class NewsTableViewCell: UITableViewCell {
     
+    // MARK: - View
+    
     private var containerView: UIView = {
         let view = UIView()
         
@@ -42,6 +44,15 @@ final class NewsTableViewCell: UITableViewCell {
         
         return type
     }()
+    
+    private var newsImage: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
+    // MARK: - Lable
     
     private var newsTitle: UILabel = {
         let label = UILabel()
@@ -84,12 +95,7 @@ final class NewsTableViewCell: UITableViewCell {
         return label
     }()
     
-    private var newsImage: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        
-        return image
-    }()
+    // MARK: - Initialization
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -109,6 +115,8 @@ final class NewsTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Private methods
     
     public func setUpCell(text: String, title: String, date: String, type: String, ImageUrl: String) {
         setUpImage(ImageUrl: ImageUrl)
@@ -226,6 +234,6 @@ extension NewsTableViewCell {
         static let newsImageWidth: CGFloat = 150
         static let typeViewSize = CGSize(width: 100, height: 25)
         static let dateViewSize = CGSize(width: 75.0, height: 25.0)
-        static let cornerRadius: CGFloat = 8
+        static let cornerRadius: CGFloat = 10
     }
 }

@@ -15,7 +15,7 @@ class WebNewsViewController: UIViewController {
     private let webView = WKWebView()
     private let model: WebNewsModel
     
-    //MARK: - Initциализешн
+    //MARK: - Initialization
     init(model: WebNewsModel) {
         self.coreDataManager = CoreDataManager()
         self.model = model
@@ -64,7 +64,13 @@ class WebNewsViewController: UIViewController {
                 }
             )
         )
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+        alert.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: UIAlertAction.Style.cancel,
+                handler: nil
+            )
+        )
         
         self.present(alert, animated: true, completion: nil)
     }

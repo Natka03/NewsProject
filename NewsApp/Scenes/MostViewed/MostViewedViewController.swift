@@ -13,6 +13,8 @@ class MostViewedViewController: UIViewController {
     
     private let networkManager = NetworkManager()
     private var model: NewsModel = .init(items: [])
+   
+    // MARK: - View
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -62,6 +64,7 @@ class MostViewedViewController: UIViewController {
                         id: item.id
                     )
                 }
+                
                 self.model = NewsModel(items: items)
                 self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
@@ -96,11 +99,18 @@ class MostViewedViewController: UIViewController {
     }
     
     private func showErrorAlertWith(_ message: String) {
-        let alert = UIAlertController(title: "Ups.. Error!",
-                                      message: message,
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "Ups.. Error!",
+            message: message,
+            preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: UIAlertAction.Style.cancel,
+                handler: nil
+            )
+        )
         
         self.present(alert, animated: true, completion: nil)
     }

@@ -13,9 +13,13 @@ final class CoreDataManager {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate 
     private let context: NSManagedObjectContext
     
+    //MARK: - Initialization
+
     init() {
         self.context = appDelegate.persistentContainer.viewContext
     }
+    
+    //MARK: - Public methods
     
     public func isFavorite(id: Int) -> Bool {
         var isFavorite: Bool = false

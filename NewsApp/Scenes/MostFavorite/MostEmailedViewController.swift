@@ -74,7 +74,6 @@ final class MostEmailedViewController: UIViewController {
                            forCellReuseIdentifier: String(describing: NewsTableViewCell.self))
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorStyle = .none //задать в xib
     }
     
     private func createActivityIndicator() {
@@ -86,12 +85,19 @@ final class MostEmailedViewController: UIViewController {
         ])
     }
     
-    private func showErrorAlertWith(_ message: String) { //может стоит вынести? подумать над наследованием
-        let alert = UIAlertController(title: "Ups.. Error!",
-                                      message: message,
-                                      preferredStyle: .alert)
+    private func showErrorAlertWith(_ message: String) { 
+        let alert = UIAlertController(
+            title: "Ups.. Error!",
+            message: message,
+            preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: UIAlertAction.Style.cancel,
+                handler: nil
+            )
+        )
         
         self.present(alert, animated: true, completion: nil)
     }
