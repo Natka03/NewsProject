@@ -125,11 +125,7 @@ extension MostEmailedViewController: UITableViewDelegate, UITableViewDataSource 
         
         let item = model.items[indexPath.row]
         
-        cell.setUpCell(text: item.newsText,
-                       title: item.title,
-                       date: item.date,
-                       type: item.newsSection,
-                       ImageUrl: item.imageURL)
+        cell.setUpCell(model: item)
         
         return cell
     }

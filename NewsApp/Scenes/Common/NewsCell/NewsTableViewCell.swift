@@ -108,6 +108,7 @@ final class NewsTableViewCell: UITableViewCell {
         containerView.addSubview(newsTitle)
         containerView.addSubview(newsLabel)
         containerView.addSubview(newsImage)
+        selectionStyle = .none
         
         setupConstraints()
     }
@@ -118,32 +119,22 @@ final class NewsTableViewCell: UITableViewCell {
     
     // MARK: - Private methods
     
-    public func setUpCell(text: String, title: String, date: String, type: String, ImageUrl: String) {
-        setUpImage(ImageUrl: ImageUrl)
-        newsLabel.text = text
-        newsTitle.text = title
-        dateLabel.text = date
-        typeLabel.text = type
+    public func setUpCell(model: NewsTableViewCellModel) {
+        setUpImage(ImageUrl: model.imageURL)
+        newsLabel.text = model.newsText
+        newsTitle.text = model.title
+        dateLabel.text = model.date
+        typeLabel.text = model.newsSection
     }
     
     private func setUpImage(ImageUrl: String) {
         let url = URL(string: ImageUrl) ?? URL(fileURLWithPath: "")
-        let image = UIImageView()
-        let imagePlaceholder: UIImage = UIImage(named: "LoadingImage") ?? UIImage()
-
-        image.kf.setImage(
-            with: url,
-            placeholder: imagePlaceholder)
-        guard let _ = image.image else { return }
-
-        self.newsImage.image = image.image
-        
+        let imagePlaceholder: UIImage = UIImage(named: "WithoutImage") ?? UIImage()
         let resource = ImageResource(downloadURL: url)
 
-        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
+        newsImage.kf.setImage(with: resource, placeholder: imagePlaceholder, options: nil){ result in
             switch result {
             case .success(let value):
-               
                 self.newsImage.image = value.image
                 print("Image: \(value.image). Got from: \(value.cacheType)")
             case .failure(let error):

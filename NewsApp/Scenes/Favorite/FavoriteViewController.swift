@@ -80,6 +80,8 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = news[indexPath.row]
         
+        cell.setUpCell(model: item ?? "")
+        
         cell.setUpCell(text: item.savedText ?? "",
                        title: item.savedTitle ?? "",
                        date: item.savedDate ?? "",

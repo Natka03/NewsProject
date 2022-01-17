@@ -12,7 +12,12 @@ class WebNewsViewController: UIViewController {
     
     private let coreDataManager: CoreDataManager
     
-    private let webView = WKWebView()
+    private let webView: WKWebView = {
+        let view = WKWebView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     private let model: WebNewsModel
     
     //MARK: - Initialization
@@ -31,13 +36,9 @@ class WebNewsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(webView)
+
+        createWebView()
         webNews()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        webView.frame = view.bounds
         setUpButtonFavorite()
     }
     
@@ -46,6 +47,17 @@ class WebNewsViewController: UIViewController {
     private func webNews() {
         guard let url = URL(string: model.webUrl) else { return }
         webView.load(URLRequest(url: url))
+    }
+    
+    private func createWebView(){
+        view.addSubview(webView)
+        
+        NSLayoutConstraint.activate([
+            webView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            webView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            webView.topAnchor.constraint(equalTo: view.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     private func massageDelete() {
@@ -84,7 +96,7 @@ class WebNewsViewController: UIViewController {
             target: self,
             action: #selector(didTapFavoriteButton)
         )
-        
+    
         favoriteButton.tintColor = isFavorite ? .red : .black
         
         navigationItem.rightBarButtonItem = favoriteButton
