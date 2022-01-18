@@ -21,6 +21,7 @@ class WebNewsViewController: UIViewController {
     private let model: WebNewsModel
     
     //MARK: - Initialization
+    
     init(model: WebNewsModel) {
         self.coreDataManager = CoreDataManager()
         self.model = model

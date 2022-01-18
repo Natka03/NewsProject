@@ -12,16 +12,17 @@ enum EndpointUrl: String {
     case mostEmailed = "emailed/30.json"
     case mostShared = "shared/30.json"
     case mostVived = "viewed/30.json"
+    case mostFavorite = ""
 }
 
 final class NetworkManager {
     
     private let parameters: Parameters = [Constant.apiKey: Constant.apiKeyValue]
     
-    public func fetchMostNews(nesType: EndpointUrl, completion: @escaping (Result<News, AFError>) -> Void ) {
+    public func fetchMostNews(nesType: EndpointUrl, completion: @escaping (Result<Results, AFError>) -> Void ) {
         let url = Constant.url + nesType.rawValue
         AF.request(url, method: .get, parameters: parameters)
-            .validate().responseDecodable (of: News.self) { responce in
+            .validate().responseDecodable (of: Results.self) { responce in
                 completion(responce.result)
             }
     }

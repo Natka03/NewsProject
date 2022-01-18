@@ -79,14 +79,15 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let item = news[indexPath.row]
-        
-        cell.setUpCell(model: item ?? "")
-        
-        cell.setUpCell(text: item.savedText ?? "",
-                       title: item.savedTitle ?? "",
-                       date: item.savedDate ?? "",
-                       type: item.savedSection ?? "",
-                       ImageUrl: item.savedImage ?? "")
+//        model.items[indexPath.row].imageURL = item.saveUrl ?? ""
+//        
+//        cell.setUpCell(model: item ?? "")
+//        
+//        cell.setUpCell(text: item.savedText ?? "",
+//                       title: item.savedTitle ?? "",
+//                       date: item.savedDate ?? "",
+//                       type: item.savedSection ?? "",
+//                       ImageUrl: item.savedImage ?? "")
         
         return cell
     }
@@ -96,13 +97,13 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         
         let vc = WebNewsViewController(
             model: WebNewsModel(
-                webUrl: item.saveUrl ?? "",
-                newsId: Int(item.saveId),
-                imageUrl: item.savedImage ?? "",
-                title: item.savedTitle ?? "",
-                date: item.savedDate ?? "",
-                newsSection: item.savedSection ?? "",
-                newsText: item.savedText ?? ""
+                webUrl: item.url ?? "",
+                newsId: Int(item.id),
+                imageUrl: item.image ?? "",
+                title: item.title ?? "",
+                date: item.date ?? "",
+                newsSection: item.section ?? "",
+                newsText: item.text ?? ""
             )
         )
         vc.hidesBottomBarWhenPushed = true

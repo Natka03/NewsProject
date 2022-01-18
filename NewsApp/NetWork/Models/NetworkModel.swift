@@ -8,11 +8,11 @@
 import UIKit
 import Foundation
 
-struct News: Codable {
+struct Results: Codable {
     let status: String
     let copyright: String
     let numResults: Int
-    let data: [Data]
+    let data: [News]
 
     enum CodingKeys: String, CodingKey {
         case status, copyright
@@ -21,7 +21,7 @@ struct News: Codable {
     }
 }
 
-struct Data: Codable {
+struct News: Codable {
     let publishedDate: String
     let section: String
     let title, abstract: String
@@ -54,3 +54,5 @@ struct MediaMetadatum: Codable {
         case urlImage = "url"
     }
 }
+
+

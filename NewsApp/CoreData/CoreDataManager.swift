@@ -26,7 +26,7 @@ final class CoreDataManager {
         
         do {
             let fetchRequest : NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "saveId == %ld", id)
+            fetchRequest.predicate = NSPredicate(format: "id == %ld", id)
             
             let fetchedResults = try context.fetch(fetchRequest)
             
@@ -47,13 +47,13 @@ final class CoreDataManager {
         
         let newsObject = SaveNews(entity: entity, insertInto: context)
         
-        newsObject.saveId = Int64(model.newsId)
-        newsObject.saveUrl = model.webUrl
-        newsObject.savedDate = model.date
-        newsObject.savedText = model.newsText
-        newsObject.savedImage = model.imageUrl
-        newsObject.savedTitle = model.title
-        newsObject.savedSection = model.newsSection
+        newsObject.id = Int64(model.newsId)
+        newsObject.url = model.webUrl
+        newsObject.date = model.date
+        newsObject.text = model.newsText
+        newsObject.image = model.imageUrl
+        newsObject.title = model.title
+        newsObject.section = model.newsSection
         
         do {
             try context.save()
@@ -65,7 +65,7 @@ final class CoreDataManager {
     public func deleteNewsWith(_ id: Int) {
         let fetchRequest : NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
 
-        fetchRequest.predicate = NSPredicate(format: "saveId == %ld", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %ld", id)
 
         do {
             let fetchedResults = try context.fetch(fetchRequest)
