@@ -9,8 +9,6 @@ import UIKit
 
 final class TabBarController: UITabBarController {
 
-    private var modelCell: [NewsTableViewCellModel] = []
-
     //MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -22,22 +20,22 @@ final class TabBarController: UITabBarController {
 
     private func setUpTabBar() {
         let emailedVC = createNavigation(
-            vc: Presenter(nesType: .mostEmailed, navBarTitle: .mostEmailed),
+            vc: ViewUi(nesType: .mostEmailed, navBarTitle: .mostEmailed),
             itemName: "Most Emailed",
             itemImage: "folder")
         
         let sharedVC = createNavigation(
-            vc: Presenter(nesType: .mostShared, navBarTitle: .mostShared),
+            vc: ViewUi(nesType: .mostShared, navBarTitle: .mostShared),
             itemName: "Most Shared",
             itemImage: "folder")
         
         let viewedVC = createNavigation(
-            vc: Presenter(nesType: .mostVived, navBarTitle: .mostVived),
+            vc: ViewUi(nesType: .mostVived, navBarTitle: .mostVived),
             itemName: "Most Viewed",
             itemImage: "folder")
         
         let favoriteVC = createNavigation(
-            vc: Presenter(nesType: .mostFavorite, navBarTitle: .mostFavorite),
+            vc: ViewUi(nesType: .mostFavorite, navBarTitle: .mostFavorite),
             itemName: "Favorite",
             itemImage: "heart")
         
