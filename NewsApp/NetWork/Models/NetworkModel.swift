@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-struct Results: Codable {
+struct Response: Codable {
     let status: String
     let copyright: String
     let numResults: Int

@@ -19,10 +19,10 @@ final class NetworkManager {
     
     private let parameters: Parameters = [Constant.apiKey: Constant.apiKeyValue]
     
-    public func fetchMostNews(nesType: EndpointUrl, completion: @escaping (Result<Results, AFError>) -> Void ) {
+    public func fetchMostNews(nesType: EndpointUrl, completion: @escaping (Result<Response, AFError>) -> Void ) {
         let url = Constant.url + nesType.rawValue
         AF.request(url, method: .get, parameters: parameters)
-            .validate().responseDecodable (of: Results.self) { responce in
+            .validate().responseDecodable (of: Response.self) { responce in
                 completion(responce.result)
             }
     }

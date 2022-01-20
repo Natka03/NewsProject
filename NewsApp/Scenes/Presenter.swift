@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class Presenter: UIViewController {
+class Presenter {
     
     //MARK: - Properties
     
@@ -16,35 +16,40 @@ class Presenter: UIViewController {
     private var model = NewsModel.init(items: [])
     private let coreDataManager = CoreDataManager()
      
-    //MARK: - Private methods
+    //MARK: - Public methods
     
     public func fetchNews(nesType: EndpointUrl, activityIndicator: UIActivityIndicatorView) -> NewsModel {
         if nesType == .mostFavorite {
-            var news: [SaveNews] = []
-            news = coreDataManager.fetchSavedNews(model: news)
-            
-            let items: [NewsTableViewCellModel] = news.compactMap { item in
-                return NewsTableViewCellModel(
-                    imageURL: item.image ?? "",
-                    title: item.title ?? "",
-                    date: item.date ?? "",
-                    newsSection: item.section ?? "",
-                    newsText: item.text ?? "",
-                    url: item.url ?? "",
-                    id: Int(item.id)
-                )
-            }
-            
-            self.model = NewsModel(items: items)
-          //  tableView.reloadData()
+            fetchFavoriteNews()
         } else {
-            model = fetchData(nesType: nesType,
-                              activityIndicator: activityIndicator)
+            fetchMostNews(nesType: nesType,
+                      activityIndicator: activityIndicator)
         }
         return model
     }
+  
+    //MARK: - Public methods
+
+    private func fetchFavoriteNews() {
+        var news: [SaveNews] = []
+        news = coreDataManager.fetchSavedNews(model: news)
+        
+        let items: [NewsTableViewCellModel] = news.compactMap { item in
+            return NewsTableViewCellModel(
+                imageURL: item.image ?? "",
+                title: item.title ?? "",
+                date: item.date ?? "",
+                newsSection: item.section ?? "",
+                newsText: item.text ?? "",
+                url: item.url ?? "",
+                id: Int(item.id)
+            )
+        }
+        
+        self.model = NewsModel(items: items)
+    }
     
-    public func fetchData(nesType: EndpointUrl, activityIndicator: UIActivityIndicatorView) -> NewsModel {
+    private func fetchMostNews(nesType: EndpointUrl, activityIndicator: UIActivityIndicatorView)  {
         activityIndicator.startAnimating()
         networkManager.fetchMostNews(nesType: nesType) { [weak self] result in
             guard let self = self else { return }
@@ -65,31 +70,10 @@ class Presenter: UIViewController {
                 self.model = NewsModel(items: items)
                 
                 activityIndicator.stopAnimating()
-              //  tableView.reloadData()
             case .failure(let error):
-                self.showErrorAlertWith(error.localizedDescription)
                 activityIndicator.stopAnimating()
                 print(error)
             }
         }
-        return model
-        
-    }
-    
-    public func showErrorAlertWith(_ message: String) {
-        let alert = UIAlertController(
-            title: "Ups.. Error!",
-            message: message,
-            preferredStyle: .alert)
-        
-        alert.addAction(
-            UIAlertAction(
-                title: "OK",
-                style: UIAlertAction.Style.cancel,
-                handler: nil
-            )
-        )
-        
-        self.present(alert, animated: true, completion: nil)
     }
 }

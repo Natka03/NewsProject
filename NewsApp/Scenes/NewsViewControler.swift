@@ -1,5 +1,5 @@
 //
-//  ViewUi.swift
+//  NewsViewControler.swift
 //  NewsApp
 //
 //  Created by Oleksandr Semeniuk on 19.01.2022.
@@ -15,7 +15,7 @@ enum NavBarTitle: String {
     case mostFavorite = "Favorite"
 }
 
-final class ViewUi: UIViewController {
+final class NewsViewControler: UIViewController {
     
     private var presenter = Presenter()
     private var model = NewsModel.init(items: [])
@@ -37,15 +37,6 @@ final class ViewUi: UIViewController {
 
     // MARK: - View
 
-    private var activityIndicator: UIActivityIndicatorView = {
-            let activityIndicator = UIActivityIndicatorView(style: .large)
-            activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-            activityIndicator.color = .blue
-            activityIndicator.hidesWhenStopped = true
-    
-            return activityIndicator
-        }()
-        
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsTableViewCell.self,
@@ -55,6 +46,15 @@ final class ViewUi: UIViewController {
         
         return tableView
     }()
+    
+    private var activityIndicator: UIActivityIndicatorView = {
+            let activityIndicator = UIActivityIndicatorView(style: .large)
+            activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+            activityIndicator.color = .blue
+            activityIndicator.hidesWhenStopped = true
+    
+            return activityIndicator
+        }()
     
     //MARK: - LifeCycle
 
@@ -70,7 +70,9 @@ final class ViewUi: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-        model = presenter.fetchNews(nesType: nesType, activityIndicator: activityIndicator)
+        
+        model = presenter.fetchNews(nesType: nesType,
+                                    activityIndicator: activityIndicator)
         tableView.reloadData()
         }
     
@@ -103,6 +105,8 @@ final class ViewUi: UIViewController {
             tableView.addSubview(refreshControl)
         }
     
+    //MARK: - Actions
+
         @objc func refresh(_ sender: AnyObject) {
             tableView.reloadData()
             refreshControl.endRefreshing()
@@ -111,7 +115,7 @@ final class ViewUi: UIViewController {
 
 //MARK: - TableViewDelegate, TableViewDataSource
 
-extension ViewUi: UITableViewDelegate, UITableViewDataSource {
+extension NewsViewControler: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model.items.count
@@ -157,7 +161,7 @@ extension ViewUi: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - Constants
 
-extension ViewUi {
+extension NewsViewControler {
     private enum Constant {
         static let tableViewHeightForRowAt: CGFloat = 200
     }

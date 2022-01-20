@@ -132,15 +132,7 @@ final class NewsTableViewCell: UITableViewCell {
         let imagePlaceholder: UIImage = UIImage(named: "WithoutImage") ?? UIImage()
         let resource = ImageResource(downloadURL: url)
 
-        newsImage.kf.setImage(with: resource, placeholder: imagePlaceholder, options: nil){ result in
-            switch result {
-            case .success(let value):
-                self.newsImage.image = value.image
-                print("Image: \(value.image). Got from: \(value.cacheType)")
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
+        newsImage.kf.setImage(with: resource, placeholder: imagePlaceholder, options: nil)
     }
     
     private func setupConstraints() {
