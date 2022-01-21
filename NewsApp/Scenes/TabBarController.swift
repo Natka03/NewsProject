@@ -19,23 +19,24 @@ final class TabBarController: UITabBarController {
     //MARK: - Private methods
 
     private func setUpTabBar() {
+
         let emailedVC = createNavigation(
-            vc: NewsViewControler(nesType: .mostEmailed, navBarTitle: .mostEmailed),
+            vc: NewsViewControler(somePresenter: NewsPresenter(nesType: .mostEmailed), navBarTitle: .mostEmailed),
             itemName: "Most Emailed",
             itemImage: "folder")
         
         let sharedVC = createNavigation(
-            vc: NewsViewControler(nesType: .mostShared, navBarTitle: .mostShared),
+            vc: NewsViewControler(somePresenter: NewsPresenter(nesType: .mostShared), navBarTitle: .mostShared),
             itemName: "Most Shared",
             itemImage: "folder")
         
         let viewedVC = createNavigation(
-            vc: NewsViewControler(nesType: .mostVived, navBarTitle: .mostVived),
+            vc: NewsViewControler(somePresenter: NewsPresenter(nesType: .mostVived), navBarTitle: .mostVived),
             itemName: "Most Viewed",
             itemImage: "folder")
         
         let favoriteVC = createNavigation(
-            vc: NewsViewControler(nesType: .mostFavorite, navBarTitle: .mostFavorite),
+            vc: NewsViewControler(somePresenter: FavoritePresenter(nesType: .mostFavorite), navBarTitle: .mostFavorite),
             itemName: "Favorite",
             itemImage: "heart")
         

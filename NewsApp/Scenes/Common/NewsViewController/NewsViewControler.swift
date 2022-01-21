@@ -18,7 +18,6 @@ enum NavBarTitle: String {
 final class NewsViewControler: UIViewController {
     
     var presenter: NewsPresenterProtocol
-    private var model = NewsModel.init(items: [])
     private let refreshControl = UIRefreshControl()
     private let navBarTitle: NavBarTitle
     
@@ -45,34 +44,25 @@ final class NewsViewControler: UIViewController {
         return tableView
     }()
     
-    private var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.color = .blue
-        activityIndicator.hidesWhenStopped = true
-        
-        return activityIndicator
-    }()
-    
     //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = navBarTitle.rawValue
-        
+       
         createTableView()
-        createActivityIndicator()
-        activityIndicator.startAnimating()
+        tableView.reloadData()
         createRefreshControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        activityIndicator.startAnimating()
-        model = presenter.fetchNews()
-        tableView.reloadData()
-        activityIndicator.stopAnimating()
+        
+        presenter.fetchNews() { [weak self]  in
+            guard let self = self else { return }
+                self.tableView.reloadData()
+        }
     }
     
     //MARK: - Private methods
@@ -87,15 +77,6 @@ final class NewsViewControler: UIViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    private func createActivityIndicator() {
-        view.addSubview(activityIndicator)
-        
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -117,7 +98,7 @@ final class NewsViewControler: UIViewController {
 extension NewsViewControler: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.items.count
+        return presenter.model.items.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -132,7 +113,7 @@ extension NewsViewControler: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let item = model.items[indexPath.row]
+        let item = presenter.model.items[indexPath.row]
         
         cell.setUpCell(model: item)
         
@@ -140,7 +121,7 @@ extension NewsViewControler: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = model.items[indexPath.row]
+        let item = presenter.model.items[indexPath.row]
         
         let vc = WebNewsViewController(model: item)
         

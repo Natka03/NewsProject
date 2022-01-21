@@ -18,11 +18,12 @@ class WebNewsViewController: UIViewController {
         
         return view
     }()
-    private let model: WebNewsModel
+    
+    private let model: NewsTableViewCellModel
     
     //MARK: - Initialization
     
-    init(model: WebNewsModel) {
+    init(model: NewsTableViewCellModel) {
         self.coreDataManager = CoreDataManager()
         self.model = model
         
@@ -46,7 +47,7 @@ class WebNewsViewController: UIViewController {
     //MARK: - Private methods
     
     private func webNews() {
-        guard let url = URL(string: model.webUrl) else { return }
+        guard let url = URL(string: model.url) else { return }
         webView.load(URLRequest(url: url))
     }
     
@@ -61,18 +62,17 @@ class WebNewsViewController: UIViewController {
         ])
     }
     
-    private func massageDelete() {
+    private func messageDelete() {
         let alert = UIAlertController(title: "Delete this article from saved",
                                       message: "",
                                       preferredStyle: .alert)
-        
         alert.addAction(
             UIAlertAction(
                 title: "OK",
                 style: UIAlertAction.Style.destructive,
                 handler: { [weak self] action in
                     guard let self = self else { return }
-                    self.coreDataManager.deleteNewsWith(self.model.newsId)
+                    self.coreDataManager.deleteNewsWith(self.model.id)
                     self.navigationItem.rightBarButtonItem?.tintColor = .black
                 }
             )
@@ -89,7 +89,7 @@ class WebNewsViewController: UIViewController {
     }
     
     private func setUpButtonFavorite() {
-        let isFavorite = coreDataManager.isFavorite(id: model.newsId)
+        let isFavorite = coreDataManager.isFavorite(id: model.id)
         
         let favoriteButton = UIBarButtonItem(
             image: UIImage(systemName: "heart.fill"),
@@ -104,10 +104,10 @@ class WebNewsViewController: UIViewController {
     }
     
     private func handleFavorites() {
-        let isFavorite = coreDataManager.isFavorite(id: model.newsId)
+        let isFavorite = coreDataManager.isFavorite(id: model.id)
         
         if isFavorite {
-            massageDelete()
+            messageDelete()
         } else {
             coreDataManager.saveNews(model: model)
             navigationItem.rightBarButtonItem?.tintColor = .red

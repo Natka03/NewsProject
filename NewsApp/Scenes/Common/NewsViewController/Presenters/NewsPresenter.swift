@@ -9,38 +9,37 @@ import Foundation
 import UIKit
 
 protocol NewsPresenterProtocol: AnyObject {
-    func fetchNews() -> NewsModel
+    var model: NewsModel { get }
+    
+    func fetchNews(_ completion: @escaping () -> Void )
 }
 
 final class NewsPresenter: NewsPresenterProtocol {
-    
-    //    weak var view: (NewsPresenterProtocol & UIViewController)?
-    
+        
     //MARK: - Properties
     
+    var model = NewsModel.init(items: [])
+    
     private let networkManager = NetworkManager ()
-    private var model = NewsModel.init(items: [])
     private let nesType: EndpointUrl
     
     init( nesType: EndpointUrl) {
         self.nesType = nesType
     }
     
-    func fetchNews() -> NewsModel {
+    func fetchNews(_ completion: @escaping () -> Void ) {
         
-        guard nesType != .mostFavorite else { return NewsModel.init(items: []) }
-        // activityIndicator.startAnimating()
         networkManager.fetchMostNews(nesType: nesType) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.getModel(data: data)
+                completion()
+
             case .failure(let error):
-                //  activityIndicator.stopAnimating()
                 print(error)
             }
         }
-        return model
     }
     
     func getModel(data: Response) {

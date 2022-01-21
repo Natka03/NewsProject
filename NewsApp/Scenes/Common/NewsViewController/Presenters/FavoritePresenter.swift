@@ -9,7 +9,8 @@ import Foundation
 
 final class FavoritePresenter: NewsPresenterProtocol {
     
-    private var model = NewsModel.init(items: [])
+    var model = NewsModel.init(items: [])
+  
     private let coreDataManager = CoreDataManager()
     private let nesType: EndpointUrl
     
@@ -17,17 +18,17 @@ final class FavoritePresenter: NewsPresenterProtocol {
         self.nesType = nesType
     }
     
-    func fetchNews() -> NewsModel {
-        guard nesType == .mostFavorite else { return NewsModel.init(items: []) }
+    func fetchNews(_ completion: @escaping () -> Void ) {
         
         var news: [SaveNews] = []
         news = coreDataManager.fetchSavedNews(model: news)
         getModel(news: news)
-        return model
+        completion()
     }
 }
 
 extension FavoritePresenter {
+    
     func getModel(news: [SaveNews]) {
         let items: [NewsTableViewCellModel] = news.compactMap { item in
             return NewsTableViewCellModel(

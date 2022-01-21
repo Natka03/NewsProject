@@ -54,5 +54,3 @@ struct MediaMetadatum: Codable {
         case urlImage = "url"
     }
 }
-
-

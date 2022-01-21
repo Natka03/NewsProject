@@ -10,20 +10,13 @@ import CoreData
 
 final class CoreDataManager {
     
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private let context: NSManagedObjectContext
-    
-    //MARK: - Initialization
+    let coreData = CoreData()
 
-    init() {
-        self.context = appDelegate.persistentContainer.viewContext
-    }
-    
     //MARK: - Public methods
     
     public func isFavorite(id: Int) -> Bool {
         var isFavorite: Bool = false
-        
+        let context = coreData.persistentContainer.viewContext
         do {
             let fetchRequest : NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %ld", id)
@@ -42,16 +35,18 @@ final class CoreDataManager {
         return isFavorite
     }
     
-    public func saveNews(model: WebNewsModel) {
+    public func saveNews(model: NewsTableViewCellModel) {
+        let context = coreData.persistentContainer.viewContext
+
         guard let entity = NSEntityDescription.entity(forEntityName: "SaveNews", in: context) else { return }
         
         let newsObject = SaveNews(entity: entity, insertInto: context)
         
-        newsObject.id = Int64(model.newsId)
-        newsObject.url = model.webUrl
+        newsObject.id = Int64(model.id)
+        newsObject.url = model.url
         newsObject.date = model.date
         newsObject.text = model.newsText
-        newsObject.image = model.imageUrl
+        newsObject.image = model.imageURL
         newsObject.title = model.title
         newsObject.section = model.newsSection
         
@@ -63,6 +58,8 @@ final class CoreDataManager {
     }
     
     public func deleteNewsWith(_ id: Int) {
+        let context = coreData.persistentContainer.viewContext
+
         let fetchRequest : NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
 
         fetchRequest.predicate = NSPredicate(format: "id == %ld", id)
@@ -85,6 +82,8 @@ final class CoreDataManager {
     }
 
     public func fetchSavedNews(model: [SaveNews] ) -> [SaveNews] {
+        let context = coreData.persistentContainer.viewContext
+
         let fetchReguest: NSFetchRequest<SaveNews> = SaveNews.fetchRequest()
         var modelNews = model
         do {
